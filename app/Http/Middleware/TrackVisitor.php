@@ -21,22 +21,26 @@ class TrackVisitor
             return $next($request);
         }
 
-        // Check if visitor has already been tracked today based on IP
-        $ip = $request->ip();
-        $today = now()->startOfDay();
+        try {
+            // Check if visitor has already been tracked today based on IP
+            $ip = $request->ip();
+            $today = now()->startOfDay();
 
-        $alreadyTracked = AnalyticsLog::where('type', 'visitor')
-            ->where('ip_address', $ip)
-            ->where('created_at', '>=', $today)
-            ->exists();
+            $alreadyTracked = AnalyticsLog::where('type', 'visitor')
+                ->where('ip_address', $ip)
+                ->where('created_at', '>=', $today)
+                ->exists();
 
-        if (!$alreadyTracked) {
-            AnalyticsLog::create([
-                'type' => 'visitor',
-                'ip_address' => $ip,
-                'user_agent' => substr($request->userAgent(), 0, 500),
-                'url' => substr($request->fullUrl(), 0, 255),
-            ]);
+            if (!$alreadyTracked) {
+                AnalyticsLog::create([
+                    'type' => 'visitor',
+                    'ip_address' => $ip,
+                    'user_agent' => substr($request->userAgent(), 0, 500),
+                    'url' => substr($request->fullUrl(), 0, 255),
+                ]);
+            }
+        } catch (\Exception $e) {
+            // Ignore if table does not exist or database is down
         }
 
         return $next($request);
