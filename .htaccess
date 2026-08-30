@@ -1,0 +1,17 @@
+# ================================================================
+# ROOT .htaccess — Redirect ke folder public/ (Hostinger compatible)
+# Letakkan file ini di: public_html/.htaccess
+# Atau di root project jika seluruh project ada di public_html
+# ================================================================
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Jika folder "public" ada langsung di public_html → redirect ke dalamnya
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -f [OR]
+    RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -d
+    RewriteRule ^(.*)$ public/$1 [L]
+
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/index.php [L]
+</IfModule>
