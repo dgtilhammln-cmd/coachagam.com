@@ -161,7 +161,7 @@
         <td class="val-col">{{ $val('bmi') }}</td>
     </tr>
     <tr>
-        <td class="lbl-col">Body Fat Percentage %</td>
+        <td class="lbl-col">Body Fat Percentage2</td>
         <td class="val-col">{{ $val('body_fat_percentage') }}</td>
     </tr>
     
@@ -173,14 +173,15 @@
             ['Jumlah Total Passing', 'total_passing'],
             ['Passing Sukses', 'passing_sukses'],
             ['Passing Gagal', 'passing_gagal'],
-            ['Jumlah Scanning (per 10 detik)', 'scanning_per_10sec'],
-            ['Initial Acceleration (0-10m)', 'initial_acceleration'],
-            ['Acceleration Phase (10-20m)', 'acceleration_phase'],
-            ['Maximal Speed/ Velocity (20-30m)', 'maximal_speed'],
+            ['Jumlah Scaning (per 10 detik)', 'scanning_per_10sec'],
+            ['Initial Acceleration (0-10m)2', 'initial_acceleration'],
+            ['Acceleration Phase (10-20m)3', 'acceleration_phase'],
+            ['Maximal Speed/ Velocity (20-30m)4', 'maximal_speed'],
             ['RAST Test', 'rast_test'],
             ['Level', 'yo_yo_level'],
             ['Balikan', 'yo_yo_balikan'],
             ['Distance', 'yo_yo_distance'],
+            ['Vo2max', 'vo2max'],
         ];
     @endphp
 

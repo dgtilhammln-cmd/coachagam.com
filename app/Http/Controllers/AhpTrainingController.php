@@ -190,7 +190,7 @@ class AhpTrainingController extends Controller
         $postRadar = $postResult ? $this->buildRadar($postResult) : array_fill(0, 7, 0);
 
         // Line chart per metric over all sessions
-        $sessionLabels = $results->map(fn($r) => $r->session->label)->values()->toArray();
+        $sessionLabels = $results->map(fn($r) => $r->session->full_label)->values()->toArray();
 
         $lineData = [
             'bmi'                  => $results->pluck('bmi')->toArray(),

@@ -24,6 +24,10 @@
 <div class="admin-card" style="border-radius:0;">
     <div class="admin-card-header"><h2>Upload File Excel</h2></div>
     <div class="admin-card-body" style="display:flex;flex-direction:column;gap:16px;">
+        <div style="background:#FFFBEB;border:1px solid #FEF3C7;padding:12px 16px;font-size:12px;color:#92400E;display:flex;align-items:center;gap:8px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <span><strong>Catatan Penting:</strong> Kolom <b>AGE (years)</b> tidak perlu diisi secara manual. Sistem akan otomatis menghitung umur berdasarkan kolom <b>DATE OF BIRTH</b>.</span>
+        </div>
         <div>
             <a href="{{ route('admin.ahp.results.template') }}" class="btn-outline" style="font-size:12px; display:inline-flex; align-items:center; gap:6px;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>

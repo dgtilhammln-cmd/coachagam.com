@@ -512,18 +512,23 @@ body { background: var(--bg-dark); color: var(--text-main); font-family: 'Inter'
                     <tbody>
                     @php
                     $comparisons = [
-                        ['Berat Badan (kg)',          $preResult->weight_kg,         $postResult->weight_kg,         'lower'],
-                        ['BMI',                        $preResult->bmi,               $postResult->bmi,               'lower'],
-                        ['Body Fat (%)',               $preResult->body_fat_percentage,$postResult->body_fat_percentage,'lower'],
-                        ['Skeletal Muscle Mass (kg)',  $preResult->skeletal_muscle_mass,$postResult->skeletal_muscle_mass,'higher'],
-                        ['MoCA Score',                 $preResult->moca_score,        $postResult->moca_score,        'higher'],
+                        ['WEIGHT (kg)',                $preResult->weight_kg,         $postResult->weight_kg,         'lower'],
+                        ['Body Mass Index (BMI)',      $preResult->bmi,               $postResult->bmi,               'lower'],
+                        ['Body Fat Percentage2',       $preResult->body_fat_percentage,$postResult->body_fat_percentage,'lower'],
+                        ['Skeletal Muscle Mass',       $preResult->skeletal_muscle_mass,$postResult->skeletal_muscle_mass,'higher'],
+                        ['Skor MoCA INA',              $preResult->moca_score,        $postResult->moca_score,        'higher'],
+                        ['Jumlah Total Passing',       $preResult->total_passing,     $postResult->total_passing,     'higher'],
                         ['Passing Sukses',             $preResult->passing_sukses,    $postResult->passing_sukses,    'higher'],
-                        ['Scanning / 10 sec',          $preResult->scanning_per_10sec,$postResult->scanning_per_10sec,'higher'],
-                        ['Akselerasi 0-10m (det)',     $preResult->initial_acceleration,$postResult->initial_acceleration,'lower'],
-                        ['Kecepatan Maks 20-30m (det)',$preResult->maximal_speed,    $postResult->maximal_speed,     'lower'],
+                        ['Passing Gagal',              $preResult->passing_gagal,     $postResult->passing_gagal,     'lower'],
+                        ['Jumlah Scaning (per 10 detik)', $preResult->scanning_per_10sec,$postResult->scanning_per_10sec,'higher'],
+                        ['Initial Acceleration (0-10m)2', $preResult->initial_acceleration,$postResult->initial_acceleration,'lower'],
+                        ['Acceleration Phase (10-20m)3', $preResult->acceleration_phase,$postResult->acceleration_phase,'lower'],
+                        ['Maximal Speed/ Velocity (20-30m)4', $preResult->maximal_speed,    $postResult->maximal_speed,     'lower'],
                         ['RAST Test',                  $preResult->rast_test,         $postResult->rast_test,         'lower'],
-                        ['Yo-Yo Level',                $preResult->yo_yo_level,       $postResult->yo_yo_level,       'higher'],
-                        ['Yo-Yo Jarak (m)',            $preResult->yo_yo_distance,    $postResult->yo_yo_distance,    'higher'],
+                        ['Level',                      $preResult->yo_yo_level,       $postResult->yo_yo_level,       'higher'],
+                        ['Balikan',                    $preResult->yo_yo_balikan,     $postResult->yo_yo_balikan,     'higher'],
+                        ['Distance',                   $preResult->yo_yo_distance,    $postResult->yo_yo_distance,    'higher'],
+                        ['Vo2max',                     $preResult->vo2max,            $postResult->vo2max,            'higher'],
                     ];
                     @endphp
                     @foreach($comparisons as [$metric, $pre, $post, $better])
@@ -575,10 +580,7 @@ body { background: var(--bg-dark); color: var(--text-main); font-family: 'Inter'
                        onmouseover="this.style.borderColor='#FFFFFF';this.style.background='rgba(255,255,255,0.05)';"
                        onmouseout="this.style.borderColor='var(--border-dark)';this.style.background='transparent';">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                        {{ $result->session->label }}
-                        <span style="font-size:9px; color:var(--text-muted); font-weight:400; margin-left:2px;">
-                            · {{ $result->session->test_date->format('d M Y') }}
-                        </span>
+                        {{ $result->session->full_label }}
                     </a>
                     @endforeach
                 </div>
@@ -613,7 +615,7 @@ const radarData = {
     labels: @json($radarMetrics),
     datasets: [
         {
-            label: '{{ $preResult->session->label }}',
+            label: '{{ $preResult->session->full_label }}',
             data: @json($preRadar),
             borderColor: '#555555',
             backgroundColor: 'rgba(255,255,255,0.05)',
@@ -623,7 +625,7 @@ const radarData = {
         },
         @if($postResult)
         {
-            label: '{{ $postResult->session->label }}',
+            label: '{{ $postResult->session->full_label }}',
             data: @json($postRadar),
             borderColor: '#FFFFFF',
             backgroundColor: 'rgba(255,255,255,0.15)',

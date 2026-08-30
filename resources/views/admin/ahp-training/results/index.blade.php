@@ -47,6 +47,11 @@
 <div style="background:#F0FDF4;border:1px solid #BBF7D0;padding:12px 16px;margin-bottom:16px;font-size:12px;color:#166534;">{{ session('success') }}</div>
 @endif
 
+<div style="background:#FFFBEB;border:1px solid #FEF3C7;padding:12px 16px;margin-bottom:16px;font-size:12px;color:#92400E;display:flex;align-items:center;gap:8px;">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+    <span><strong>Informasi:</strong> Nilai <b>AGE (years)</b> akan dihitung dan diperbarui secara otomatis oleh sistem berdasarkan <b>DATE OF BIRTH</b> (Tanggal Lahir) setiap pemain.</span>
+</div>
+
 <form action="{{ route('admin.ahp.results.update', $session) }}" method="POST" id="results-form">
 @csrf
 

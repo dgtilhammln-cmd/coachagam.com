@@ -52,6 +52,7 @@
                     <div style="display:flex;gap:10px;justify-content:flex-end;">
                         <a href="{{ route('admin.ahp.results.index', $s) }}" style="font-size:11px;color:#424242;text-decoration:none;border-bottom:1px solid #E0E0E0;padding-bottom:1px;">Input Data</a>
                         <a href="{{ route('admin.ahp.results.import', $s) }}" style="font-size:11px;color:#424242;text-decoration:none;border-bottom:1px solid #E0E0E0;padding-bottom:1px;">Import Excel</a>
+                        <a href="{{ route('admin.ahp.sessions.edit', $s) }}" style="font-size:11px;color:#424242;text-decoration:none;border-bottom:1px solid #E0E0E0;padding-bottom:1px;">Edit</a>
                         <form method="POST" action="{{ route('admin.ahp.sessions.destroy', $s) }}" style="display:inline;" onsubmit="return confirm('Hapus sesi ini? Semua data hasil test akan terhapus!')">
                             @csrf @method('DELETE')
                             <button type="submit" style="font-size:11px;color:#DC2626;background:none;border:none;border-bottom:1px solid #FCA5A5;cursor:pointer;font-family:inherit;padding:0 0 1px;">Hapus</button>

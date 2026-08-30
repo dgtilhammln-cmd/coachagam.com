@@ -23,6 +23,11 @@ class AhpTestSession extends Model
         return $this->hasMany(AhpTestResult::class, 'session_id');
     }
 
+    public function getFullLabelAttribute(): string
+    {
+        return $this->label . ' ' . $this->test_date->translatedFormat('d F Y');
+    }
+
     public function getResultCountAttribute(): int
     {
         return $this->results()->count();

@@ -41,6 +41,27 @@ class AhpSessionController extends Controller
         return view('admin.ahp-training.sessions.show', compact('session', 'results'));
     }
 
+    public function edit(AhpTestSession $session)
+    {
+        $labels = ['Pre Test', 'Program Latihan', 'Volume dan Intensitas', 'Evaluation Training Load', 'Post Test', 'Report Individual Players'];
+        return view('admin.ahp-training.sessions.edit', compact('session', 'labels'));
+    }
+
+    public function update(Request $request, AhpTestSession $session)
+    {
+        $data = $request->validate([
+            'label'       => 'required|string|max:100',
+            'location'    => 'nullable|string|max:255',
+            'test_date'   => 'required|date',
+            'test_time'   => 'nullable',
+            'temperature' => 'nullable|string|max:50',
+            'period_week' => 'nullable|integer|min:0',
+            'coach_notes' => 'nullable|string',
+        ]);
+        $session->update($data);
+        return redirect()->route('admin.ahp.sessions.index')->with('success', 'Sesi test berhasil diubah!');
+    }
+
     public function destroy(AhpTestSession $session)
     {
         $session->delete();
