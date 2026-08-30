@@ -51,6 +51,7 @@ class AhpResultController extends Controller
                     'yo_yo_level'          => $data['yo_yo_level'] ?? null,
                     'yo_yo_balikan'        => $data['yo_yo_balikan'] ?? null,
                     'yo_yo_distance'       => $data['yo_yo_distance'] ?? null,
+                    'vo2max'               => $data['vo2max'] ?? null,
                     'rating_notes'         => $data['rating_notes'] ?? null,
                 ]
             );
@@ -81,17 +82,17 @@ class AhpResultController extends Controller
     public function downloadTemplate()
     {
         $headers = [
-            'NO REG', 'NAME', 'AGE', 'HEIGHT (cm)', 'WEIGHT (kg)', 'BMI',
-            'Body Fat %', 'Skeletal Muscle Mass', 'MoCA Score',
-            'Total Passing', 'Passing Sukses', 'Passing Gagal',
-            'Scanning/10s', 'Initial Acc (0-10m)', 'Acc Phase (10-20m)',
-            'Max Speed (20-30m)', 'RAST Test', 'Yo-Yo Level', 'Balikan', 'Distance',
+            'NO REG', 'NAME', 'DATE OF BIRTH', 'AGE (years)', 'HEIGHT (cm)', 'WEIGHT (kg)', 'Body Mass Index (BMI)',
+            'Body Fat Percentage2', 'Skeletal Muscle Mass', 'Skor MoCA INA',
+            'Jumlah Total Passing', 'Passing Sukses', 'Passing Gagal',
+            'Jumlah Scaning (per 10 detik)', 'Initial Acceleration (0-10m)2', 'Acceleration Phase (10-20m)3',
+            'Maximal Speed/ Velocity (20-30m)4', 'RAST Test', 'Level', 'Balikan', 'Distance', 'Vo2max'
         ];
 
         $callback = function () use ($headers) {
             $file = fopen('php://output', 'w');
             fputcsv($file, $headers);
-            fputcsv($file, ['AHP-03', 'MARIO KIDANG', 19, 175, 68, 22.2, 12.5, 35.2, 26, 30, 25, 5, 4.2, 1.85, 1.92, 1.78, 45.2, 17, 8, 1120]);
+            fputcsv($file, ['AHP-03', 'MARIO KIDANG', '2003-01-22', 21, 175, 68, 22.2, 12.5, 35.2, 26, 30, 25, 5, 4.2, 1.85, 1.92, 1.78, 45.2, 17, 8, 1120, 52.4]);
             fclose($file);
         };
 

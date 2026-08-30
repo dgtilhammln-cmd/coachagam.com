@@ -84,7 +84,7 @@ class AhpTestResultImport implements ToCollection, WithStartRow
                     'session_id' => $this->sessionId,
                 ],
                 [
-                    'age'                   => is_numeric($row[3]) ? $row[3] : null,
+                    'age'                   => $dob ? Carbon::parse($dob)->age : (is_numeric($row[3]) ? $row[3] : null),
                     'height_cm'             => is_numeric($row[4]) ? $row[4] : null,
                     'weight_kg'             => is_numeric($row[5]) ? $row[5] : null,
                     'bmi'                   => is_numeric($row[6]) ? $row[6] : null,
@@ -102,6 +102,7 @@ class AhpTestResultImport implements ToCollection, WithStartRow
                     'yo_yo_level'           => is_numeric($row[18]) ? $row[18] : null,
                     'yo_yo_balikan'         => is_numeric($row[19]) ? $row[19] : null,
                     'yo_yo_distance'        => is_numeric($row[20]) ? $row[20] : null,
+                    'vo2max'                => is_numeric($row[21] ?? null) ? $row[21] : null,
                 ]
             );
         }

@@ -14,7 +14,7 @@ class AhpTestResult extends Model
         'body_fat_percentage', 'skeletal_muscle_mass', 'moca_score',
         'total_passing', 'passing_sukses', 'passing_gagal', 'scanning_per_10sec',
         'initial_acceleration', 'acceleration_phase', 'maximal_speed',
-        'rast_test', 'yo_yo_level', 'yo_yo_balikan', 'yo_yo_distance',
+        'rast_test', 'yo_yo_level', 'yo_yo_balikan', 'yo_yo_distance', 'vo2max',
         'rating_notes',
     ];
 
@@ -30,6 +30,7 @@ class AhpTestResult extends Model
         'maximal_speed'          => 'float',
         'rast_test'              => 'float',
         'yo_yo_distance'         => 'float',
+        'vo2max'                 => 'float',
     ];
 
     public function player(): BelongsTo
