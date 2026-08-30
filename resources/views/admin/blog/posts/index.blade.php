@@ -38,9 +38,9 @@
         </div>
         <div>
             <select name="category" style="background: #161616; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 10px 14px; border-radius: 8px; font-size: 13px; outline: none; cursor: pointer; transition: border-color 150ms;" onfocus="this.style.borderColor='rgba(255,255,255,0.3)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
-                <option value="" style="color: #000;">Semua Kategori</option>
+                <option value="" style="color: #fff; background: #222;">Semua Kategori</option>
                 @foreach($categories as $cat)
-                    <option value="{{ $cat['slug'] }}" style="color: #000;" {{ request('category') == $cat['slug'] ? 'selected' : '' }}>{{ $cat['name'] }}</option>
+                    <option value="{{ $cat['slug'] }}" style="color: #fff; background: #222;" {{ request('category') == $cat['slug'] ? 'selected' : '' }}>{{ $cat['name'] }}</option>
                 @endforeach
             </select>
         </div>
