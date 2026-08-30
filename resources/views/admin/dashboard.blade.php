@@ -188,10 +188,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="{{ route('admin.lisensi') }}" style="display:inline-flex;align-items:center;gap:7px;padding:8px 16px;background:#1A1A1A;color:#fff;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;text-decoration:none;transition:background 200ms;white-space:nowrap;flex-shrink:0;" onmouseover="this.style.background='#333'" onmouseout="this.style.background='#1A1A1A'">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                    Kelola Lisensi
-                </a>
+
             </div>
             @php
                 $pct = $license['days_remaining'] > 0 ? min(100, round($license['days_remaining'] / 365 * 100)) : 0;
