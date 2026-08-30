@@ -568,9 +568,14 @@
                         {{-- triangle pointer --}}
                         <div style="position:absolute; top:-6px; left:50%; transform:translateX(-50%) rotate(45deg); width:10px; height:10px; background:#0A0A0A; border-left:1px solid #333333; border-top:1px solid #333333;"></div>
                         
-                        <a href="/blog?category=sport-science" style="white-space:nowrap; padding:12px 24px; color:#9CA3AF; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; text-decoration:none; border:1px solid #222222; background:#111111; transition:all 150ms;" onmouseover="this.style.background='#1A1A1A'; this.style.borderColor='#444444'; this.style.color='#FFFFFF';" onmouseout="this.style.background='#111111'; this.style.borderColor='#222222'; this.style.color='#9CA3AF';">SPORT SCIENCE</a>
-                        <a href="/blog?category=materi-kepelatihan" style="white-space:nowrap; padding:12px 24px; color:#9CA3AF; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; text-decoration:none; border:1px solid #222222; background:#111111; transition:all 150ms;" onmouseover="this.style.background='#1A1A1A'; this.style.borderColor='#444444'; this.style.color='#FFFFFF';" onmouseout="this.style.background='#111111'; this.style.borderColor='#222222'; this.style.color='#9CA3AF';">MATERI KEPELATIHAN</a>
-                        <a href="/blog?category=filosofi-spiritualitas" style="white-space:nowrap; padding:12px 24px; color:#9CA3AF; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; text-decoration:none; border:1px solid #222222; background:#111111; transition:all 150ms;" onmouseover="this.style.background='#1A1A1A'; this.style.borderColor='#444444'; this.style.color='#FFFFFF';" onmouseout="this.style.background='#111111'; this.style.borderColor='#222222'; this.style.color='#9CA3AF';">FILOSOFI & SPIRITUALITAS</a>
+                        @php
+                            $navCatSetting = \App\Models\SiteSetting::where('key', 'blog.categories')->first();
+                            $navCats = $navCatSetting ? json_decode($navCatSetting->value, true) : [];
+                            $navHeads = array_filter($navCats, fn($c) => empty($c['parent_id']));
+                        @endphp
+                        @foreach($navHeads as $navHead)
+                        <a href="/blog?category={{ $navHead['slug'] }}" style="white-space:nowrap; padding:12px 24px; color:#9CA3AF; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; text-decoration:none; border:1px solid #222222; background:#111111; transition:all 150ms;" onmouseover="this.style.background='#1A1A1A'; this.style.borderColor='#444444'; this.style.color='#FFFFFF';" onmouseout="this.style.background='#111111'; this.style.borderColor='#222222'; this.style.color='#9CA3AF';">{{ $navHead['name'] }}</a>
+                        @endforeach
                     </div>
                 </div>
 
