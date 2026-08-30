@@ -75,7 +75,9 @@
 document.querySelector('form').addEventListener('submit', function(e) {
     const custom = document.querySelector('[name="label_custom"]').value.trim();
     if (custom) {
-        document.getElementById('label').removeAttribute('required');
+        let select = document.getElementById('label');
+        select.removeAttribute('required');
+        select.disabled = true;
         // Create hidden input with custom label value
         const hidden = document.createElement('input');
         hidden.type = 'hidden';
