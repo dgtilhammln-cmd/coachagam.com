@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\BlogCategoryController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Admin\CrmController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\TrackingController;
 
 // AHP CMS Controllers
 use App\Http\Controllers\Admin\AhpAdminDashboardController;
@@ -37,6 +38,10 @@ use App\Http\Controllers\Admin\AhpResultController;
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 Route::get('/robots.txt',  [SitemapController::class, 'robotsTxt'])->name('robots');
 Route::get('/llms.txt',    [SitemapController::class, 'llmsTxt'])->name('llms');
+
+// ─── TRACKING API ───────────────────────────────────────────────────────
+Route::post('/api/track/wa', [TrackingController::class, 'trackWa'])->name('track.wa');
+Route::post('/api/track/lead', [TrackingController::class, 'trackLead'])->name('track.lead');
 
 // ─── PUBLIC: Halaman Utama ──────────────────────────────────────────────
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -137,6 +142,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // ─── Protected Admin Routes ─────────────────────────────────────
     Route::middleware('admin')->group(function () {
+        
+        // Analytics Dashboard
+        Route::get('analytics', [\App\Http\Controllers\Admin\AnalyticsController::class, 'index'])->name('analytics.index');
 
         // Dashboard
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');

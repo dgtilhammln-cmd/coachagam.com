@@ -81,6 +81,25 @@
         Dashboard
     </a>
 
+    {{-- Analytics --}}
+    @php $isAnalytics = request()->routeIs('admin.analytics.index'); @endphp
+    <a href="{{ route('admin.analytics.index') }}"
+       style="
+           display:flex;align-items:center;gap:10px;
+           padding:8px 16px;margin-bottom:1px;
+           text-decoration:none;font-size:12.5px;
+           {{ $isAnalytics ? 'color:#FFFFFF;font-weight:600;background:#2A2A2A;border-left:3px solid #FFFFFF;' : 'color:#A0A0A0;font-weight:400;border-left:3px solid transparent;' }}
+           transition:all 200ms cubic-bezier(0.22,1,0.36,1);
+       "
+       onmouseover="if(!{{ $isAnalytics ? 'true' : 'false' }}){this.style.color='#FFFFFF';this.style.background='#1F1F1F';}"
+       onmouseout="if(!{{ $isAnalytics ? 'true' : 'false' }}){this.style.color='#A0A0A0';this.style.background='transparent';}"
+    >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="{{ $isAnalytics ? '#FFFFFF' : '#777777' }}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+        </svg>
+        Analytics
+    </a>
+
     {{-- Lihat Website --}}
     <a href="{{ route('home') }}" target="_blank" rel="noopener"
        style="

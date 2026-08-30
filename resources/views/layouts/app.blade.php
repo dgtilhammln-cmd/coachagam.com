@@ -909,6 +909,17 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (href.includes('wa.me') || href.includes('api.whatsapp.com')) {
             e.preventDefault();
+            
+            // Track WA click in Analytics
+            fetch('/api/track/wa', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ source: link.textContent.trim().substring(0, 50) || 'whatsapp_link' })
+            }).catch(err => console.error('Tracking WA failed', err));
+
             // Dispatch event to open Alpine popup
             window.dispatchEvent(new CustomEvent('open-wa-popup', { 
                 detail: { url: href } 

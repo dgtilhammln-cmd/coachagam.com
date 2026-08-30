@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lead;
+use App\Models\AnalyticsLog;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
@@ -18,6 +19,15 @@ class ContactController extends Controller
         ]);
 
         Lead::create($validated);
+        
+        // Track as lead in analytics
+        AnalyticsLog::create([
+            'type' => 'lead',
+            'ip_address' => $request->ip(),
+            'user_agent' => substr($request->userAgent(), 0, 500),
+            'url' => substr($request->headers->get('referer') ?? $request->url(), 0, 255),
+            'source' => 'contact_page',
+        ]);
 
         $waNumber = \App\Models\SiteSetting::where('key', 'contact.whatsapp_number')->value('value') ?? '6281234567890';
         $waNumber = preg_replace('/[^0-9]/', '', $waNumber); // Bersihkan nomor
@@ -48,8 +58,18 @@ class ContactController extends Controller
         Lead::create([
             'name' => $validated['name'],
             'phone' => $validated['phone'],
-            'message' => $validated['kebutuhan'] ?? null,
+            'message' => $validated['kebutuhan'] ?? 'Mengirim pesan via WhatsApp Popup',
+            'service' => 'WhatsApp Popup Lead',
             'source' => 'WhatsApp Popup',
+        ]);
+
+        // Track as lead in analytics
+        AnalyticsLog::create([
+            'type' => 'lead',
+            'ip_address' => $request->ip(),
+            'user_agent' => substr($request->userAgent(), 0, 500),
+            'url' => substr($request->headers->get('referer') ?? $request->url(), 0, 255),
+            'source' => 'wa_popup',
         ]);
 
         return response()->json([
