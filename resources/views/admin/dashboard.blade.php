@@ -156,6 +156,58 @@
 
 </div>
 
+{{-- ── HVM DIGITAL LICENSE CARD ──────────────────────────────────── --}}
+<div style="margin-top: 20px;" class="anim-fade-up anim-delay-4">
+    <div class="admin-card" style="border-left: 3px solid {{ $license['is_active'] ? '#22C55E' : '#EF4444' }};">
+        <div class="admin-card-body" style="padding: 20px 22px;">
+            <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="width: 42px; height: 42px; background: #1A1A1A; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div style="font-size: 11px; font-weight: 700; color: #9E9E9E; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px;">Developed by HVM Digital</div>
+                        <div style="font-size: 13px; font-weight: 600; color: #212121; margin-bottom: 3px;">
+                            Lisensi Website
+                            @if($license['is_active'])
+                                <span style="background:#F0FDF4;color:#22C55E;border:1px solid #BBF7D0;font-size:10px;font-weight:700;padding:2px 8px;text-transform:uppercase;letter-spacing:0.06em;margin-left:6px;">Aktif</span>
+                            @else
+                                <span style="background:#FEF2F2;color:#EF4444;border:1px solid #FCA5A5;font-size:10px;font-weight:700;padding:2px 8px;text-transform:uppercase;letter-spacing:0.06em;margin-left:6px;">Expired</span>
+                            @endif
+                        </div>
+                        <div style="font-size:12px;color:#9E9E9E;">
+                            Berakhir: <strong style="color:#212121;">{{ $license['expiry']->translatedFormat('d F Y') }}</strong>
+                            &nbsp;·&nbsp;
+                            @if($license['days_remaining'] > 0)
+                                <span style="color:{{ $license['days_remaining'] <= 30 ? '#B45309' : '#2E7D32' }};font-weight:600;">{{ $license['days_remaining'] }} hari lagi</span>
+                            @else
+                                <span style="color:#EF4444;font-weight:600;">Lisensi expired</span>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                <a href="{{ route('admin.lisensi') }}" style="display:inline-flex;align-items:center;gap:7px;padding:8px 16px;background:#1A1A1A;color:#fff;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;text-decoration:none;transition:background 200ms;white-space:nowrap;flex-shrink:0;" onmouseover="this.style.background='#333'" onmouseout="this.style.background='#1A1A1A'">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    Kelola Lisensi
+                </a>
+            </div>
+            @php
+                $pct = $license['days_remaining'] > 0 ? min(100, round($license['days_remaining'] / 365 * 100)) : 0;
+                $barColor = $license['days_remaining'] <= 30 ? '#EF4444' : ($license['days_remaining'] <= 90 ? '#F59E0B' : '#22C55E');
+            @endphp
+            <div style="margin-top:16px;background:#F5F5F5;height:3px;width:100%;overflow:hidden;">
+                <div style="height:100%;width:{{$pct}}%;background:{{$barColor}};transition:width 1s ease;"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:10px;color:#BDBDBD;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;">
+                <span>Sisa: {{ $license['days_remaining'] }} hari</span>
+                <a href="https://hvmdigital.id" target="_blank" rel="noopener" style="color:#BDBDBD;text-decoration:none;">hvmdigital.id</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <style>
 @media(max-width:1200px) { .stats-grid { grid-template-columns: repeat(2,1fr) !important; } }
 @media(max-width:900px)  { .dash-grid { grid-template-columns: 1fr !important; } }

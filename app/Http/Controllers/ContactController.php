@@ -60,17 +60,18 @@ class ContactController extends Controller
             'phone' => $validated['phone'],
             'message' => $validated['kebutuhan'] ?? 'Mengirim pesan via WhatsApp Popup',
             'service' => 'WhatsApp Popup Lead',
-            'source' => 'WhatsApp Popup',
         ]);
 
         // Track as lead in analytics
-        AnalyticsLog::create([
-            'type' => 'lead',
-            'ip_address' => $request->ip(),
-            'user_agent' => substr($request->userAgent(), 0, 500),
-            'url' => substr($request->headers->get('referer') ?? $request->url(), 0, 255),
-            'source' => 'wa_popup',
-        ]);
+        try {
+            AnalyticsLog::create([
+                'type' => 'lead',
+                'ip_address' => $request->ip(),
+                'user_agent' => substr($request->userAgent(), 0, 500),
+                'url' => substr($request->headers->get('referer') ?? $request->url(), 0, 255),
+                'source' => 'wa_popup',
+            ]);
+        } catch (\Exception $e) {}
 
         return response()->json([
             'status' => 'success',

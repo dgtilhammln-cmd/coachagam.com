@@ -150,16 +150,25 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Analytics Dashboard
         Route::get('analytics', [\App\Http\Controllers\Admin\AnalyticsController::class, 'index'])->name('analytics.index');
 
-        // TEMPORARY: View error log
-        Route::get('debug-logs', function(\Illuminate\Http\Request $request) {
-            if ($request->has('cmd')) {
-                return '<pre>' . htmlspecialchars(shell_exec($request->input('cmd'))) . '</pre>';
-            }
-            $logPath = storage_path('logs/laravel.log');
-            if (!file_exists($logPath)) return 'No log file found.';
-            $logs = shell_exec('tail -n 100 ' . escapeshellarg($logPath));
-            return '<pre style="background:#111;color:#0f0;padding:20px;white-space:pre-wrap;">' . htmlspecialchars($logs) . '</pre>';
-        });
+        // License Management (hidden page, no sidebar)
+        Route::get('lisensi', function() {
+            return view('admin.lisensi');
+        })->name('lisensi');
+        Route::post('lisensi/update', function(\Illuminate\Http\Request $request) {
+            $request->validate(['expiry_date' => 'required|date|after:today']);
+            // Write new expiry date to .env or config file
+            $newDate = $request->input('expiry_date');
+            $middlewarePath = app_path('Http/Middleware/CheckLicense.php');
+            $content = file_get_contents($middlewarePath);
+            $content = preg_replace(
+                "/const EXPIRY_DATE = '[^']+';/",
+                "const EXPIRY_DATE = '{$newDate}';",
+                $content
+            );
+            file_put_contents($middlewarePath, $content);
+            \Artisan::call('optimize:clear');
+            return back()->with('success', 'Lisensi berhasil diperbarui hingga ' . \Carbon\Carbon::parse($newDate)->format('d F Y'));
+        })->name('lisensi.update');
 
         // Dashboard
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');

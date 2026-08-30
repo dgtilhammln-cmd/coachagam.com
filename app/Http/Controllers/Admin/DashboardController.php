@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\CheckLicense;
 use App\Models\Post;
 use App\Models\SiteSetting;
 use Illuminate\Support\Facades\Schema;
@@ -29,6 +30,13 @@ class DashboardController extends Controller
             }
         } catch (\Throwable) {}
 
-        return view('admin.dashboard', compact('stats'));
+        $license = [
+            'expiry'       => CheckLicense::getExpiryDate(),
+            'is_active'    => CheckLicense::isActive(),
+            'days_remaining' => CheckLicense::daysRemaining(),
+        ];
+
+        return view('admin.dashboard', compact('stats', 'license'));
     }
 }
+
