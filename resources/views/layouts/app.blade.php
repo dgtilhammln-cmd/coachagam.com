@@ -562,8 +562,9 @@
                     <div class="nav-dropdown-menu" style="
                         position:absolute; top:100%; left:50%; transform:translateX(-50%);
                         background:#0A0A0A; border:1px solid #333333; border-radius:4px;
-                        display:none; flex-direction:row; gap:8px; padding:8px;
+                        display:none; flex-direction:row; flex-wrap:wrap; gap:6px; padding:8px;
                         box-shadow:0 10px 25px rgba(0,0,0,0.5); margin-top:-5px;
+                        max-width:700px; width:max-content;
                     " onclick="event.stopPropagation()">
                         {{-- triangle pointer --}}
                         <div style="position:absolute; top:-6px; left:50%; transform:translateX(-50%) rotate(45deg); width:10px; height:10px; background:#0A0A0A; border-left:1px solid #333333; border-top:1px solid #333333;"></div>
@@ -574,7 +575,7 @@
                             $navHeads = array_filter($navCats, fn($c) => empty($c['parent_id']));
                         @endphp
                         @foreach($navHeads as $navHead)
-                        <a href="/blog?category={{ $navHead['slug'] }}" style="white-space:nowrap; padding:12px 24px; color:#9CA3AF; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; text-decoration:none; border:1px solid #222222; background:#111111; transition:all 150ms;" onmouseover="this.style.background='#1A1A1A'; this.style.borderColor='#444444'; this.style.color='#FFFFFF';" onmouseout="this.style.background='#111111'; this.style.borderColor='#222222'; this.style.color='#9CA3AF';">{{ $navHead['name'] }}</a>
+                        <a href="/blog/category/{{ $navHead['slug'] }}" style="max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding:10px 16px; color:#9CA3AF; font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; text-decoration:none; border:1px solid #222222; background:#111111; transition:all 150ms; display:block; box-sizing:border-box;" onmouseover="this.style.background='#1A1A1A'; this.style.borderColor='#444444'; this.style.color='#FFFFFF';" onmouseout="this.style.background='#111111'; this.style.borderColor='#222222'; this.style.color='#9CA3AF';" title="{{ $navHead['name'] }}">{{ $navHead['name'] }}</a>
                         @endforeach
                     </div>
                 </div>

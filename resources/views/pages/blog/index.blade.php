@@ -55,7 +55,7 @@
                     {{-- Sub-kategori sebagai tombol filter --}}
                     @if(!empty($head['subs']))
                         @foreach($head['subs'] as $sub)
-                        <a href="{{ route('blog.index', ['category' => $sub['slug']]) }}"
+                        <a href="/blog/category/{{ $sub['slug'] }}"
                            title="{{ $head['name'] }} › {{ $sub['name'] }}"
                            style="display:inline-block; font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:8px 18px; text-decoration:none; transition:all 150ms;
                                   {{ $category === $sub['slug'] ? 'background:#1A1A1A; color:#fff;' : 'background:#FFFFFF; color:#6B7280; border:1px solid #E5E7EB;' }}"
@@ -66,7 +66,7 @@
                         @endforeach
                     @else
                         {{-- Head tanpa sub, tampilkan head langsung --}}
-                        <a href="{{ route('blog.index', ['category' => $head['slug']]) }}"
+                        <a href="/blog/category/{{ $head['slug'] }}"
                            style="display:inline-block; font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:8px 18px; text-decoration:none; transition:all 150ms;
                                   {{ $category === $head['slug'] ? 'background:#1A1A1A; color:#fff;' : 'background:#FFFFFF; color:#6B7280; border:1px solid #E5E7EB;' }}"
                            onmouseover="if(this.style.background !== 'rgb(26, 26, 26)'){this.style.background='#F3F4F6';}"

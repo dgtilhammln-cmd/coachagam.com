@@ -8,9 +8,10 @@ use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, $slug = null)
     {
-        $category = $request->query('category');
+        // Accept category from clean URL /blog/category/{slug} OR query param ?category=
+        $category = $slug ?? $request->query('category');
         $search = $request->query('search');
         
         // Default sort for modul-kepelatihan is 'terlama' (oldest), otherwise 'terbaru' (newest)

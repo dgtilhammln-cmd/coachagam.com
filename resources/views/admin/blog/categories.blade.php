@@ -72,7 +72,7 @@
                             <span style="background: rgba(99,102,241,0.15); color: #a5b4fc; border: 1px solid rgba(99,102,241,0.3); padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px;">HEAD</span>
                         </td>
                         <td style="padding: 14px 20px;">
-                            <a href="{{ url('blog?category=' . $head['slug']) }}" target="_blank" style="font-size: 12px; color: #60a5fa; text-decoration: none; font-family: monospace;" title="Lihat di website">/blog?category={{ $head['slug'] }}</a>
+                                                        <a href="{{ url('blog/category/' . $head['slug']) }}" target="_blank" style="font-size: 12px; color: #60a5fa; text-decoration: none; font-family: monospace;" title="Lihat di website">/blog/category/{{ $head['slug'] }}</a>
                         </td>
                         <td style="padding: 14px 20px; text-align: right; white-space: nowrap;">
                             <button onclick="editCat('{{ $head['id'] }}', '{{ addslashes($head['name']) }}', '')" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; margin-right: 4px;">Edit</button>
@@ -95,7 +95,7 @@
                                 <span style="background: rgba(52,211,153,0.1); color: #6ee7b7; border: 1px solid rgba(52,211,153,0.2); padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px;">SUB</span>
                             </td>
                             <td style="padding: 11px 20px;">
-                                <a href="{{ url('blog?category=' . $child['slug']) }}" target="_blank" style="font-size: 12px; color: #60a5fa; text-decoration: none; font-family: monospace;">/blog?category={{ $child['slug'] }}</a>
+                                <a href="{{ url('blog/category/' . $child['slug']) }}" target="_blank" style="font-size: 12px; color: #60a5fa; text-decoration: none; font-family: monospace;">/blog/category/{{ $child['slug'] }}</a>
                             </td>
                             <td style="padding: 11px 20px; text-align: right; white-space: nowrap;">
                                 <button onclick="editCat('{{ $child['id'] }}', '{{ addslashes($child['name']) }}', '{{ $head['id'] }}')" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; margin-right: 4px;">Edit</button>
