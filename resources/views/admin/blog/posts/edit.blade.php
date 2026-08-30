@@ -43,7 +43,7 @@
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
             </a>
             <div>
-                <h1 style="font-size: 20px; font-weight: 700; color: #F5F5F5; margin: 0; letter-spacing: -0.3px;">Edit Artikel</h1>
+                <h1 style="font-size: 20px; font-weight: 700; color: #111; margin: 0; letter-spacing: -0.3px;">Edit Artikel</h1>
                 <p style="font-size: 13px; color: #555; margin: 0;">{{ $post->title }}</p>
             </div>
         </div>
@@ -103,14 +103,39 @@
                     <h3 style="font-size: 15px; font-weight: 700; color: #fff; margin: 0 0 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px;">Pengaturan SEO</h3>
                     
                     <div class="form-group">
-                        <label class="form-label">Meta Title</label>
-                        <input type="text" name="meta_title" value="{{ old('meta_title', $post->meta_title) }}" class="form-input">
+                        <label class="form-label">Meta Title (Opsional)</label>
+                        <input type="text" id="meta_title" name="meta_title" value="{{ old('meta_title', $post->meta_title) }}" class="form-input" placeholder="Title untuk SEO, maks 60 karakter">
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">Meta Description</label>
-                        <textarea name="meta_description" class="form-input" rows="3">{{ old('meta_description', $post->meta_description) }}</textarea>
+                        <label class="form-label">Meta Description (Opsional)</label>
+                        <textarea id="meta_description" name="meta_description" class="form-input" rows="4" placeholder="Deskripsi untuk SEO, maks 160 karakter">{{ old('meta_description', $post->meta_description) }}</textarea>
                     </div>
+
+                    {{-- SEO Meta Fallback Logic --}}
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function() {
+                            const titleInput = document.querySelector('input[name="title"]');
+                            const excerptInput = document.querySelector('textarea[name="excerpt"]');
+                            const metaTitleInput = document.getElementById('meta_title');
+                            const metaDescInput = document.getElementById('meta_description');
+
+                            function updateSeoFallbacks() {
+                                if (metaTitleInput.value.trim() === '') {
+                                    metaTitleInput.placeholder = titleInput.value ? titleInput.value.substring(0, 60) : 'Title untuk SEO, maks 60 karakter';
+                                }
+                                if (metaDescInput.value.trim() === '') {
+                                    metaDescInput.placeholder = excerptInput.value ? excerptInput.value.substring(0, 160) : 'Deskripsi untuk SEO, maks 160 karakter';
+                                }
+                            }
+
+                            titleInput.addEventListener('input', updateSeoFallbacks);
+                            excerptInput.addEventListener('input', updateSeoFallbacks);
+                            
+                            // Initialize on load
+                            updateSeoFallbacks();
+                        });
+                    </script>
 
                     <div class="form-group" style="margin-bottom: 0;">
                         <label class="form-label">Meta Keywords</label>
