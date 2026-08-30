@@ -7,8 +7,8 @@
     {{-- Header --}}
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
         <div style="display: flex; align-items: center; gap: 12px;">
-            <div style="width: 36px; height: 36px; background: rgba(255,255,255,0.07); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <div style="width: 36px; height: 36px; background: rgba(0,0,0,0.05); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                     <polyline points="14 2 14 8 20 8"></polyline>
                     <line x1="16" y1="13" x2="8" y2="13"></line>
@@ -17,8 +17,8 @@
                 </svg>
             </div>
             <div>
-                <h1 style="font-size: 20px; font-weight: 700; color: #F5F5F5; margin: 0; letter-spacing: -0.3px;">Artikel Blog</h1>
-                <p style="font-size: 13px; color: #555; margin: 0;">Kelola semua artikel blog Anda.</p>
+                <h1 style="font-size: 20px; font-weight: 700; color: #111; margin: 0; letter-spacing: -0.3px;">Artikel Blog</h1>
+                <p style="font-size: 13px; color: #666; margin: 0;">Kelola semua artikel blog Anda.</p>
             </div>
         </div>
         <a href="{{ route('admin.blog.posts.create') }}" style="background: #fff; color: #111; text-decoration: none; padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: transform 150ms;" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='translateY(0)'">
