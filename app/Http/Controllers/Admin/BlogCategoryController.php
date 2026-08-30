@@ -13,7 +13,7 @@ class BlogCategoryController extends Controller
     {
         if ($request->has('seed_mindmap')) {
             $this->seedMindMapCategories();
-            return redirect()->route('admin.blog.categories.index')->with('success', '✅ Kategori berhasil direset ke struktur Mind Map! Total ' . $this->getCategoryCount() . ' kategori dimuat.');
+            return redirect()->route('admin.blog.categories.index')->with('success', 'Kategori berhasil direset ke struktur Mind Map! Total ' . $this->getCategoryCount() . ' kategori dimuat.');
         }
 
         $categories = $this->getCategories();

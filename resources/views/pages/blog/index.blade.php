@@ -45,21 +45,68 @@
         <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:24px; margin-bottom:48px; border-bottom:1px solid #E5E7EB; padding-bottom:24px;">
             
             {{-- Category Filter --}}
-            <div style="display:flex; align-items:flex-start; gap:16px; flex-wrap:wrap; flex:1; min-width:280px;">
-                <a href="{{ route('blog.index') }}"
-                   style="display:inline-block; font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:8px 18px; text-decoration:none; transition:all 150ms;
-                          {{ !$category ? 'background:#1A1A1A; color:#fff;' : 'background:#FFFFFF; color:#6B7280; border:1px solid #E5E7EB;' }}">
-                    Semua
-                </a>
-                @foreach($categories as $head)
-                    <a href="/blog/category/{{ $head['slug'] }}"
+            <div style="display:flex; flex-direction:column; gap:16px; flex:1; min-width:280px;">
+                {{-- Head Categories --}}
+                <div style="display:flex; align-items:flex-start; gap:12px; flex-wrap:wrap;">
+                    <a href="{{ route('blog.index') }}"
                        style="display:inline-block; font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:8px 18px; text-decoration:none; transition:all 150ms;
-                              {{ $category === $head['slug'] ? 'background:#1A1A1A; color:#fff;' : 'background:#FFFFFF; color:#6B7280; border:1px solid #E5E7EB;' }}"
-                       onmouseover="if(this.style.background !== 'rgb(26, 26, 26)'){this.style.background='#F3F4F6';}"
-                       onmouseout="if(this.style.background !== 'rgb(26, 26, 26)'){this.style.background='#FFFFFF';}">
-                        {{ $head['name'] }}
+                              {{ !$category ? 'background:#1A1A1A; color:#fff;' : 'background:#FFFFFF; color:#6B7280; border:1px solid #E5E7EB;' }}">
+                        Semua
                     </a>
-                @endforeach
+                    
+                    @php
+                        $activeHead = null;
+                        if ($category) {
+                            foreach($categories as $head) {
+                                if ($head['slug'] === $category) {
+                                    $activeHead = $head;
+                                    break;
+                                }
+                                if (!empty($head['subs'])) {
+                                    foreach($head['subs'] as $sub) {
+                                        if ($sub['slug'] === $category) {
+                                            $activeHead = $head;
+                                            break 2;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    @endphp
+
+                    @foreach($categories as $head)
+                        @php
+                            $isHeadActive = ($activeHead && $activeHead['id'] === $head['id']);
+                        @endphp
+                        <a href="/blog/category/{{ $head['slug'] }}"
+                           style="display:inline-block; font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:8px 18px; text-decoration:none; transition:all 150ms;
+                                  {{ $isHeadActive ? 'background:#1A1A1A; color:#fff;' : 'background:#FFFFFF; color:#6B7280; border:1px solid #E5E7EB;' }}"
+                           onmouseover="if(this.style.background !== 'rgb(26, 26, 26)'){this.style.background='#F3F4F6';}"
+                           onmouseout="if(this.style.background !== 'rgb(26, 26, 26)'){this.style.background='#FFFFFF';}">
+                            {{ $head['name'] }}
+                        </a>
+                    @endforeach
+                </div>
+
+                {{-- Sub Categories (Hanya muncul jika Head sedang aktif) --}}
+                @if($activeHead && !empty($activeHead['subs']))
+                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; padding-left:16px; border-left:3px solid #E5E7EB; margin-top:4px;">
+                    <a href="/blog/category/{{ $activeHead['slug'] }}"
+                       style="display:inline-block; font-size:10px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:6px 14px; border-radius:20px; text-decoration:none; transition:all 150ms;
+                              {{ $category === $activeHead['slug'] ? 'background:#F3F4F6; color:#111; border:1px solid #D1D5DB;' : 'background:#fff; color:#9CA3AF; border:1px solid #F3F4F6;' }}">
+                        Semua {{ $activeHead['name'] }}
+                    </a>
+                    @foreach($activeHead['subs'] as $sub)
+                        <a href="/blog/category/{{ $sub['slug'] }}"
+                           style="display:inline-block; font-size:10px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:6px 14px; border-radius:20px; text-decoration:none; transition:all 150ms;
+                                  {{ $category === $sub['slug'] ? 'background:#F3F4F6; color:#111; border:1px solid #D1D5DB;' : 'background:#fff; color:#9CA3AF; border:1px solid #F3F4F6;' }}"
+                           onmouseover="if(this.style.background !== 'rgb(243, 244, 246)'){this.style.background='#F9FAFB';}"
+                           onmouseout="if(this.style.background !== 'rgb(243, 244, 246)'){this.style.background='#fff';}">
+                            {{ $sub['name'] }}
+                        </a>
+                    @endforeach
+                </div>
+                @endif
             </div>
 
             {{-- Search & Sort Form --}}

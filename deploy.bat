@@ -46,7 +46,7 @@ if %errorlevel% neq 0 (
 :: ── STEP 4: Pull & Clear Cache di Hostinger ──────────────────
 echo.
 echo  [4/4] Deploy ke server Hostinger (git pull + clear cache)...
-ssh -p 65002 u664715641@46.202.186.86 "cd ~/domains/coachagam.hvmdigital.id/public_html && git pull origin main && /usr/bin/php artisan route:clear && /usr/bin/php artisan view:clear && /usr/bin/php artisan cache:clear && echo '✅ SERVER UPDATED OK'"
+ssh -p 65002 u664715641@46.202.186.86 "cd ~/domains/coachagam.hvmdigital.id/public_html && git pull origin main && /usr/bin/php artisan route:clear && /usr/bin/php artisan view:clear && /usr/bin/php artisan cache:clear && echo '[OK] SERVER UPDATED'"
 
 if %errorlevel% neq 0 (
     echo.
@@ -55,7 +55,7 @@ if %errorlevel% neq 0 (
 ) else (
     echo.
     echo  =========================================
-    echo   ✅ DEPLOY BERHASIL! Cek website kamu.
+    echo   [OK] DEPLOY BERHASIL! Cek website kamu.
     echo  =========================================
 )
 

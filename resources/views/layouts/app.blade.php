@@ -548,7 +548,7 @@
                     ['Beranda',    '/'],
                     ['Profil Coach Agam',    '/profil-coach-agam'],
                     ['Gallery',     '/gallery'],
-                    ['Modul Kepelatihan',       '/blog?category=modul-kepelatihan'],
+                    ['Modul Kepelatihan',       '/blog/category/modul-kepelatihan'],
                 ] as [$label, $href])
                 <a href="{{ $href }}" style="color:#9CA3AF;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1px;text-decoration:none;transition:color 150ms;" onmouseover="this.style.color='#FFFFFF'" onmouseout="this.style.color='#9CA3AF'">{{ $label }}</a>
                 @endforeach
@@ -653,7 +653,7 @@
             ['Beranda',    '/'],
             ['Profil Coach Agam',    '/profil-coach-agam'],
             ['Gallery',     '/gallery'],
-            ['Modul Kepelatihan',       '/blog?category=modul-kepelatihan'],
+            ['Modul Kepelatihan',       '/blog/category/modul-kepelatihan'],
             ['Blog',       '/blog'],
             ['Kontak',     '/kontak'],
         ] as [$label, $href])
