@@ -146,6 +146,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Analytics Dashboard
         Route::get('analytics', [\App\Http\Controllers\Admin\AnalyticsController::class, 'index'])->name('analytics.index');
 
+        // TEMPORARY: View error log
+        Route::get('debug-logs', function() {
+            $logPath = storage_path('logs/laravel.log');
+            if (!file_exists($logPath)) return 'No log file found.';
+            $logs = shell_exec('tail -n 100 ' . escapeshellarg($logPath));
+            return '<pre style="background:#111;color:#0f0;padding:20px;white-space:pre-wrap;">' . htmlspecialchars($logs) . '</pre>';
+        });
+
         // Dashboard
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
