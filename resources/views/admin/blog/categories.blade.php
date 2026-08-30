@@ -47,20 +47,44 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($categories as $cat)
-                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                    <td style="padding: 16px 20px; font-size: 13px; font-weight: 600; color: #E5E5E5;">{{ $cat['name'] }}</td>
-                    <td style="padding: 16px 20px; font-size: 12px; color: #888;">{{ $cat['slug'] }}</td>
-                    <td style="padding: 16px 20px; text-align: right; display: flex; justify-content: flex-end; gap: 8px;">
-                        <button onclick="editCat('{{ $cat['id'] }}', '{{ addslashes($cat['name']) }}')" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer;">Edit</button>
-                        <form action="{{ route('admin.blog.categories.destroy', $cat['id']) }}" method="POST" onsubmit="return confirm('Hapus kategori ini?')">
-                            @csrf @method('DELETE')
-                            <button style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: #ef4444; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer;">Hapus</button>
-                        </form>
-                    </td>
-                </tr>
+                @php 
+                    $heads = array_filter($categories, fn($c) => empty($c['parent_id'])); 
+                @endphp
+                @forelse($heads as $head)
+                    {{-- Head Row --}}
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(255,255,255,0.03);">
+                        <td style="padding: 16px 20px; font-size: 14px; font-weight: 700; color: #fff;">{{ $head['name'] }}</td>
+                        <td style="padding: 16px 20px; font-size: 12px; color: #888;">{{ $head['slug'] }}</td>
+                        <td style="padding: 16px 20px; text-align: right; display: flex; justify-content: flex-end; gap: 8px;">
+                            <button onclick="editCat('{{ $head['id'] }}', '{{ addslashes($head['name']) }}', '')" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer;">Edit</button>
+                            <form action="{{ route('admin.blog.categories.destroy', $head['id']) }}" method="POST" onsubmit="return confirm('Hapus Head Kategori ini? Pastikan tidak ada sub-kategori di dalamnya!')">
+                                @csrf @method('DELETE')
+                                <button style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: #ef4444; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer;">Hapus</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {{-- Child Rows --}}
+                    @php 
+                        $children = array_filter($categories, fn($c) => isset($c['parent_id']) && $c['parent_id'] == $head['id']);
+                    @endphp
+                    @foreach($children as $child)
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                            <td style="padding: 12px 20px 12px 40px; font-size: 13px; font-weight: 500; color: #ccc; display: flex; align-items: center; gap: 8px;">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                {{ $child['name'] }}
+                            </td>
+                            <td style="padding: 12px 20px; font-size: 12px; color: #888;">{{ $child['slug'] }}</td>
+                            <td style="padding: 12px 20px; text-align: right; display: flex; justify-content: flex-end; gap: 8px;">
+                                <button onclick="editCat('{{ $child['id'] }}', '{{ addslashes($child['name']) }}', '{{ $head['id'] }}')" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer;">Edit</button>
+                                <form action="{{ route('admin.blog.categories.destroy', $child['id']) }}" method="POST" onsubmit="return confirm('Hapus kategori ini?')">
+                                    @csrf @method('DELETE')
+                                    <button style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: #ef4444; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer;">Hapus</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
                 @empty
-                <tr><td colspan="3" style="padding: 24px; text-align: center; color: #666; font-size: 13px;">Belum ada kategori.</td></tr>
+                    <tr><td colspan="3" style="padding: 24px; text-align: center; color: #666; font-size: 13px;">Belum ada kategori.</td></tr>
                 @endforelse
             </tbody>
         </table>
@@ -76,6 +100,17 @@
             <div style="margin-bottom: 20px;">
                 <label style="display: block; font-size: 12px; color: #888; margin-bottom: 8px;">Nama Kategori</label>
                 <input type="text" name="name" required style="width: 100%; box-sizing: border-box; background: #111; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 10px 14px; border-radius: 8px; font-size: 14px; outline: none;">
+            </div>
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-size: 12px; color: #888; margin-bottom: 8px;">Parent Kategori (Opsional)</label>
+                <select name="parent_id" style="width: 100%; box-sizing: border-box; background: #111; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 10px 14px; border-radius: 8px; font-size: 14px; outline: none;">
+                    <option value="">-- Jadikan Head Kategori --</option>
+                    @foreach($categories as $c)
+                        @if(empty($c['parent_id']))
+                            <option value="{{ $c['id'] }}">{{ $c['name'] }}</option>
+                        @endif
+                    @endforeach
+                </select>
             </div>
             <div style="display: flex; gap: 12px; justify-content: flex-end;">
                 <button type="button" onclick="document.getElementById('modal-add').style.display='none'" style="padding: 10px 16px; background: transparent; border: 1px solid rgba(255,255,255,0.1); color: #aaa; border-radius: 8px; cursor: pointer;">Batal</button>
@@ -95,6 +130,17 @@
                 <label style="display: block; font-size: 12px; color: #888; margin-bottom: 8px;">Nama Kategori</label>
                 <input type="text" name="name" id="edit-name" required style="width: 100%; box-sizing: border-box; background: #111; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 10px 14px; border-radius: 8px; font-size: 14px; outline: none;">
             </div>
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-size: 12px; color: #888; margin-bottom: 8px;">Parent Kategori (Opsional)</label>
+                <select name="parent_id" id="edit-parent" style="width: 100%; box-sizing: border-box; background: #111; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 10px 14px; border-radius: 8px; font-size: 14px; outline: none;">
+                    <option value="">-- Jadikan Head Kategori --</option>
+                    @foreach($categories as $c)
+                        @if(empty($c['parent_id']))
+                            <option value="{{ $c['id'] }}">{{ $c['name'] }}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
             <div style="display: flex; gap: 12px; justify-content: flex-end;">
                 <button type="button" onclick="document.getElementById('modal-edit').style.display='none'" style="padding: 10px 16px; background: transparent; border: 1px solid rgba(255,255,255,0.1); color: #aaa; border-radius: 8px; cursor: pointer;">Batal</button>
                 <button type="submit" style="padding: 10px 16px; background: #fff; border: none; color: #111; font-weight: 600; border-radius: 8px; cursor: pointer;">Simpan</button>
@@ -104,8 +150,9 @@
 </div>
 
 <script>
-function editCat(id, name) {
+function editCat(id, name, parentId) {
     document.getElementById('edit-name').value = name;
+    document.getElementById('edit-parent').value = parentId;
     document.getElementById('form-edit').action = '/admin/blog/categories/' + id;
     document.getElementById('modal-edit').style.display = 'flex';
 }

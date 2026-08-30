@@ -146,15 +146,62 @@
                         </select>
                     </div>
 
+                    @php
+                        $selectedHead = '';
+                        $selectedSub = old('category', $post->category);
+                        foreach($categories as $head) {
+                            foreach($head['subs'] as $sub) {
+                                if($sub['slug'] == $selectedSub) {
+                                    $selectedHead = $head['id'];
+                                    break 2;
+                                }
+                            }
+                        }
+                    @endphp
+
                     <div class="form-group">
-                        <label class="form-label">Kategori</label>
-                        <select name="category" class="form-select">
-                            <option value="">-- Pilih Kategori --</option>
-                            @foreach($categories as $cat)
-                                <option value="{{ $cat['slug'] }}" {{ old('category', $post->category) == $cat['slug'] ? 'selected' : '' }}>{{ $cat['name'] }}</option>
+                        <label class="form-label">Head Kategori</label>
+                        <select id="head_category" class="form-select" onchange="updateSubCategory()">
+                            <option value="">-- Pilih Head Kategori --</option>
+                            @foreach($categories as $head)
+                                <option value="{{ $head['id'] }}" {{ $selectedHead == $head['id'] ? 'selected' : '' }}>{{ $head['name'] }}</option>
                             @endforeach
                         </select>
                     </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Sub Kategori (Pilih Head Kategori Terlebih Dahulu)</label>
+                        <select id="sub_category" name="category" class="form-select" required>
+                            <option value="">-- Pilih Sub Kategori --</option>
+                        </select>
+                    </div>
+
+                    <script>
+                        const catData = @json($categories);
+                        
+                        function updateSubCategory(isInit = false) {
+                            const headId = document.getElementById('head_category').value;
+                            const subSelect = document.getElementById('sub_category');
+                            const initialSub = '{{ $selectedSub }}';
+                            
+                            subSelect.innerHTML = '<option value="">-- Pilih Sub Kategori --</option>';
+                            
+                            if(headId) {
+                                const head = catData.find(c => c.id === headId);
+                                if(head && head.subs) {
+                                    head.subs.forEach(sub => {
+                                        const isSelected = (isInit && sub.slug === initialSub) ? 'selected' : '';
+                                        subSelect.innerHTML += `<option value="${sub.slug}" ${isSelected}>${sub.name}</option>`;
+                                    });
+                                }
+                            }
+                        }
+                        
+                        // Auto trigger on page load to restore selected sub-category
+                        window.addEventListener('DOMContentLoaded', () => {
+                            updateSubCategory(true);
+                        });
+                    </script>
 
                     <div class="form-group">
                         <label class="form-label">Featured Image</label>
