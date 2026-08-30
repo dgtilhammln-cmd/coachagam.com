@@ -17,10 +17,16 @@
                 <p style="font-size: 13px; color: #555; margin: 0;">Kelola kategori untuk artikel blog.</p>
             </div>
         </div>
-        <button onclick="document.getElementById('modal-add').style.display='flex'" style="background: #fff; color: #111; border: none; padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-            Tambah Kategori
-        </button>
+        <div style="display: flex; gap: 8px; align-items: center;">
+            <a href="{{ route('admin.blog.categories.index') }}?seed_mindmap=1" onclick="return confirm('Reset semua kategori ke struktur Mind Map? Data kategori lama akan dihapus dan diganti.')" style="background: rgba(255,165,0,0.1); border: 1px solid rgba(255,165,0,0.3); color: #FCD34D; padding: 10px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 6px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 .49-3.39"></path></svg>
+                Reset Mind Map
+            </a>
+            <button onclick="document.getElementById('modal-add').style.display='flex'" style="background: #fff; color: #111; border: none; padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Tambah Kategori
+            </button>
+        </div>
     </div>
 
     @if(session('success'))

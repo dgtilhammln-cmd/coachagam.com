@@ -80,6 +80,10 @@ Route::get('/ahp-training/player/{slug}/pdf', [AhpTrainingController::class, 'do
 
 // Blog (Public)
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+// SEO friendly kategori URL → redirect ke filter
+Route::get('/blog/kategori/{slug}', function($slug) {
+    return redirect()->route('blog.index', ['category' => $slug], 301);
+})->name('blog.kategori');
 Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
 
 // Kontak

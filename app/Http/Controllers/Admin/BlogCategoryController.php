@@ -13,11 +13,18 @@ class BlogCategoryController extends Controller
     {
         if ($request->has('seed_mindmap')) {
             $this->seedMindMapCategories();
-            return redirect()->route('admin.blog.categories.index')->with('success', 'Kategori dari Mind Map berhasil diinisialisasi.');
+            return redirect()->route('admin.blog.categories.index')->with('success', '✅ Kategori berhasil direset ke struktur Mind Map! Total ' . $this->getCategoryCount() . ' kategori dimuat.');
         }
 
         $categories = $this->getCategories();
         return view('admin.blog.categories', compact('categories'));
+    }
+
+    private function getCategoryCount()
+    {
+        $setting = SiteSetting::where('key', 'blog.categories')->first();
+        if (!$setting) return 0;
+        return count(json_decode($setting->value, true) ?: []);
     }
 
     public function store(Request $request)
