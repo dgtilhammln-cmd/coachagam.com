@@ -23,9 +23,7 @@ git push origin main
 echo.
 
 echo [5] Membuka koneksi SSH ke Server dan menarik (Pull) kode terbaru...
-:: Command SSH jarak jauh: masuk ke public_html, git pull, dan clear cache Laravel.
-:: Sesuaikan path `cd public_html` jika root folder Laravel Anda sedikit berbeda di dalam public_html
-ssh -p 65002 u664715641@46.202.186.86 "cd public_html && git pull origin main && php artisan optimize:clear && php artisan view:clear"
+ssh -p 65002 u664715641@46.202.186.86 "cd domains/coachagam.hvmdigital.id/public_html && git pull origin main && php artisan optimize:clear && php artisan view:clear"
 
 echo.
 echo =======================================================
