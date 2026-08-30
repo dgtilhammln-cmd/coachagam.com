@@ -71,10 +71,22 @@ class BlogController extends Controller
     private function getCategories()
     {
         $setting = SiteSetting::where('key', 'blog.categories')->first();
-        return $setting ? json_decode($setting->value, true) : [
-            ['id' => uniqid(), 'name' => 'Sport Science', 'slug' => 'sport-science'],
-            ['id' => uniqid(), 'name' => 'Materi Kepelatihan', 'slug' => 'materi-kepelatihan'],
-            ['id' => uniqid(), 'name' => 'Filosofi & Spiritualitas', 'slug' => 'filosofi-spiritualitas'],
-        ];
+        if (!$setting) return [];
+
+        $cats = json_decode($setting->value, true) ?: [];
+        
+        // Build hierarchical structure: heads with their subs
+        $heads = array_filter($cats, fn($c) => empty($c['parent_id']));
+        $structured = [];
+        foreach ($heads as $head) {
+            $subs = array_filter($cats, fn($c) => isset($c['parent_id']) && $c['parent_id'] == $head['id']);
+            $structured[] = [
+                'id'   => $head['id'],
+                'name' => $head['name'],
+                'slug' => $head['slug'],
+                'subs' => array_values($subs),
+            ];
+        }
+        return $structured;
     }
 }

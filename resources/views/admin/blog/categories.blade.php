@@ -41,42 +41,59 @@
         <table style="width: 100%; border-collapse: collapse; text-align: left;">
             <thead>
                 <tr style="border-bottom: 1px solid rgba(255,255,255,0.05); background: #1A1A1A;">
-                    <th style="padding: 14px 20px; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Nama Kategori</th>
-                    <th style="padding: 14px 20px; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Slug</th>
+                    <th style="padding: 14px 20px; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px; width: 40%;">Nama Kategori</th>
+                    <th style="padding: 14px 20px; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Tipe</th>
+                    <th style="padding: 14px 20px; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Slug / URL SEO</th>
                     <th style="padding: 14px 20px; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px; text-align: right;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @php 
-                    $heads = array_filter($categories, fn($c) => empty($c['parent_id'])); 
+                    $heads = array_filter($categories, fn($c) => empty($c['parent_id']));
                 @endphp
                 @forelse($heads as $head)
-                    {{-- Head Row --}}
+                    @php 
+                        $children = array_filter($categories, fn($c) => isset($c['parent_id']) && $c['parent_id'] == $head['id']);
+                        $subCount = count($children);
+                    @endphp
+                    {{-- HEAD ROW --}}
                     <tr style="border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(255,255,255,0.03);">
-                        <td style="padding: 16px 20px; font-size: 14px; font-weight: 700; color: #fff;">{{ $head['name'] }}</td>
-                        <td style="padding: 16px 20px; font-size: 12px; color: #888;">{{ $head['slug'] }}</td>
-                        <td style="padding: 16px 20px; text-align: right; display: flex; justify-content: flex-end; gap: 8px;">
-                            <button onclick="editCat('{{ $head['id'] }}', '{{ addslashes($head['name']) }}', '')" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer;">Edit</button>
-                            <form action="{{ route('admin.blog.categories.destroy', $head['id']) }}" method="POST" onsubmit="return confirm('Hapus Head Kategori ini? Pastikan tidak ada sub-kategori di dalamnya!')">
+                        <td style="padding: 14px 20px;">
+                            <div style="font-size: 14px; font-weight: 700; color: #fff;">{{ $head['name'] }}</div>
+                            <div style="font-size: 11px; color: #666; margin-top: 2px;">{{ $subCount }} sub-kategori</div>
+                        </td>
+                        <td style="padding: 14px 20px;">
+                            <span style="background: rgba(99,102,241,0.15); color: #a5b4fc; border: 1px solid rgba(99,102,241,0.3); padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px;">HEAD</span>
+                        </td>
+                        <td style="padding: 14px 20px;">
+                            <a href="{{ url('blog?category=' . $head['slug']) }}" target="_blank" style="font-size: 12px; color: #60a5fa; text-decoration: none; font-family: monospace;" title="Lihat di website">/blog?category={{ $head['slug'] }}</a>
+                        </td>
+                        <td style="padding: 14px 20px; text-align: right; white-space: nowrap;">
+                            <button onclick="editCat('{{ $head['id'] }}', '{{ addslashes($head['name']) }}', '')" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; margin-right: 4px;">Edit</button>
+                            <form action="{{ route('admin.blog.categories.destroy', $head['id']) }}" method="POST" style="display:inline;" onsubmit="return confirm('Hapus Head Kategori ini? Sub-kategorinya tidak ikut terhapus!')">
                                 @csrf @method('DELETE')
                                 <button style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: #ef4444; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer;">Hapus</button>
                             </form>
                         </td>
                     </tr>
-                    {{-- Child Rows --}}
-                    @php 
-                        $children = array_filter($categories, fn($c) => isset($c['parent_id']) && $c['parent_id'] == $head['id']);
-                    @endphp
+                    {{-- SUB ROWS --}}
                     @foreach($children as $child)
-                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                            <td style="padding: 12px 20px 12px 40px; font-size: 13px; font-weight: 500; color: #ccc; display: flex; align-items: center; gap: 8px;">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                                {{ $child['name'] }}
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                            <td style="padding: 11px 20px 11px 44px;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                    <span style="font-size: 13px; color: #ccc;">{{ $child['name'] }}</span>
+                                </div>
                             </td>
-                            <td style="padding: 12px 20px; font-size: 12px; color: #888;">{{ $child['slug'] }}</td>
-                            <td style="padding: 12px 20px; text-align: right; display: flex; justify-content: flex-end; gap: 8px;">
-                                <button onclick="editCat('{{ $child['id'] }}', '{{ addslashes($child['name']) }}', '{{ $head['id'] }}')" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer;">Edit</button>
-                                <form action="{{ route('admin.blog.categories.destroy', $child['id']) }}" method="POST" onsubmit="return confirm('Hapus kategori ini?')">
+                            <td style="padding: 11px 20px;">
+                                <span style="background: rgba(52,211,153,0.1); color: #6ee7b7; border: 1px solid rgba(52,211,153,0.2); padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px;">SUB</span>
+                            </td>
+                            <td style="padding: 11px 20px;">
+                                <a href="{{ url('blog?category=' . $child['slug']) }}" target="_blank" style="font-size: 12px; color: #60a5fa; text-decoration: none; font-family: monospace;">/blog?category={{ $child['slug'] }}</a>
+                            </td>
+                            <td style="padding: 11px 20px; text-align: right; white-space: nowrap;">
+                                <button onclick="editCat('{{ $child['id'] }}', '{{ addslashes($child['name']) }}', '{{ $head['id'] }}')" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; margin-right: 4px;">Edit</button>
+                                <form action="{{ route('admin.blog.categories.destroy', $child['id']) }}" method="POST" style="display:inline;" onsubmit="return confirm('Hapus sub-kategori ini?')">
                                     @csrf @method('DELETE')
                                     <button style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: #ef4444; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer;">Hapus</button>
                                 </form>
@@ -84,7 +101,7 @@
                         </tr>
                     @endforeach
                 @empty
-                    <tr><td colspan="3" style="padding: 24px; text-align: center; color: #666; font-size: 13px;">Belum ada kategori.</td></tr>
+                    <tr><td colspan="4" style="padding: 24px; text-align: center; color: #666; font-size: 13px;">Belum ada kategori. Data akan otomatis di-seed saat halaman ini dimuat ulang.</td></tr>
                 @endforelse
             </tbody>
         </table>
