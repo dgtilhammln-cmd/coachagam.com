@@ -7,14 +7,14 @@
     {{-- Header --}}
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
         <div style="display: flex; align-items: center; gap: 12px;">
-            <div style="width: 36px; height: 36px; background: rgba(255,255,255,0.07); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <div style="width: 36px; height: 36px; background: rgba(0,0,0,0.06); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line>
                 </svg>
             </div>
             <div>
-                <h1 style="font-size: 20px; font-weight: 700; color: #F5F5F5; margin: 0; letter-spacing: -0.3px;">Kategori Blog</h1>
-                <p style="font-size: 13px; color: #555; margin: 0;">Kelola kategori untuk artikel blog.</p>
+                <h1 style="font-size: 20px; font-weight: 700; color: #111; margin: 0; letter-spacing: -0.3px;">Kategori Blog</h1>
+                <p style="font-size: 13px; color: #666; margin: 0;">Kelola kategori untuk artikel blog.</p>
             </div>
         </div>
         <div style="display: flex; gap: 8px; align-items: center;">
