@@ -1,73 +1,406 @@
-# AHP Training - Coach Agam ⚽
+﻿# Coach Agam — Platform Analisis Performa Atlet Sepakbola
 
-Sistem Informasi, Manajemen Profil, dan Analisis Performa Pemain Sepakbola Profesional. Platform ini dirancang secara khusus untuk memberikan laporan dan visualisasi performa setiap atlet secara *real-time* kepada pelatih dan pemain, dibalut dengan desain UI/UX bertema *dark-mode* yang modern, premium, dan sangat interaktif.
+**Website:** https://coachagam.hvmdigital.id
+**Developer:** Ilham Maulana | **Agensi:** HVM Digital (hvmdigital.id)
+**Lisensi Aktif s/d:** 26 Juni 2027
 
----
-
-## 👨‍💻 Developer & Pembuat
-- **Developer:** Ilham Maulana
-- **Agensi:** HVM Digital (hvmdigital.id)
+Platform profesional berbasis Laravel 11 untuk manajemen profil, analisis performa, dan laporan medis/fisik atlet sepakbola — dirancang khusus untuk Coach Agam dan program pembinaan AHP Training.
 
 ---
 
-## 🚀 Fitur Utama (Features)
+## Daftar Isi
 
-### 1. User Interface (Front-End) yang Elegan & Interaktif
-- **Premium Dark Mode UI:** Antarmuka dengan balutan warna gelap profesional layaknya aplikasi statistik sepakbola papan atas Eropa.
-- **Mobile Responsive:** Berjalan sangat mulus dan *responsive* di perangkat Desktop, Tablet, maupun Smartphone.
-- **Dua Mode Tampilan Card (List Pemain):** Pengguna dapat memilih mode tampilan daftar pemain menggunakan mode **Carousel (SwiperJS)** atau **Grid Kotak**, yang perubahannya terjadi secara *real-time* tanpa perlu memuat ulang halaman.
-- **Advanced Multi-term Search System:** Sistem pencarian cerdas yang memungkinkan pengguna mencari berdasarkan Nama, Nomor Registrasi (No Reg), Angka murni dari No Reg, ataupun kombinasi keduaya (contoh: "Ronaldo 07") secara instan.
-- **Filter Berdasarkan Posisi:** Pemilahan data pemain berdasarkan posisi (ALL, GK, DEF, MID, ATT).
-
-### 2. Halaman Analisis & Profil Pemain (Player Profile)
-- **Data Demografi Otomatis:** Perhitungan umur otomatis (dari tanggal lahir), tinggi, berat, status aktif, dan nomor registrasi.
-- **Visualisasi Grafik Data (Chart.js):** 
-  - **Radar Chart:** Menampilkan gambaran umum (Overview) performa pemain di setiap atribut secara *spider-web* untuk memudahkan identifikasi titik kuat/lemah pemain.
-  - **Bar/Line Chart:** Melacak rekam jejak progres fisik per sesi (Pre Test, Post Test, dll).
-- **Tabel Komparasi & Trend Analysis (Pre-Test vs Post-Test):** Tabel yang menyoroti perkembangan antar fase latihan, dilengkapi dengan panah kalkulasi persentase, dan indikator cerdas (hijau untuk progres positif, merah untuk regresi).
-
-### 3. Fitur Head-to-Head & Export
-- **Live Player Comparison (H2H):** Bandingkan dua pemain yang berbeda di dalam satu layar. Didukung oleh kustomisasi dropdown super elegan (Alpine.js) dan tabel komparasi interaktif yang bisa di-*swipe* ke samping saat dibuka di *mobile*.
-- **Generate & Download PDF:** Fitur untuk mengunduh laporan analisis progres dan rapot nilai per-sesi milik pemain ke dalam format dokumen PDF.
-
-### 4. Admin Panel & Backend 
-- **Manajemen Data Pemain:** CRUD (Create, Read, Update, Delete) biodata dan pasfoto atlet.
-- **Manajemen Sesi Uji & Data Medis/Fisik:** Form pencatatan lengkap mulai dari BMI, Body Fat, MoCA Score, akurasi *Passing*, *Scanning*, *Acceleration 0-10m*, hingga *Yo-Yo Test*.
-- **Website Settings & SEO Management:** 
-  - Dynamic Meta Tags (Title, Description, Keyword, Schema.org).
-  - Open Graph & Twitter Cards Setup.
-  - Pengelolaan teks statis, logo, hero banner, dan pengaturan *script* bawaan.
-
-### 5. Hosting / cPanel Ready
-- **Symlink Generator (`setup_symlink.php`):** *Script* sakti bawaan yang dirancang untuk mempermudah migrasi ke *shared hosting* / cPanel agar seluruh foto pemain selalu tersinkronisasi dan tampil sempurna *(real-time)* tanpa repot berurusan dengan *command-line*.
+- Tech Stack
+- Fitur Halaman Publik
+- Fitur AHP Training (Publik)
+- Fitur Admin Panel
+- Sistem AHP Training (Admin)
+- Sistem Blog
+- CRM Leads
+- Analytics
+- Lisensi (Hidden)
+- SEO dan Teknis
+- Cara Instalasi
+- Deploy ke Hostinger
 
 ---
 
-## 🛠️ Stack Teknologi (Tech Stack)
+## Tech Stack
 
-Proyek ini dibangun di atas pondasi arsitektur teknologi web modern:
-- **Backend / Framework Utama:** Laravel 11 (PHP 8.2+)
-- **Database:** MySQL
-- **Templating Engine:** Laravel Blade
-- **Frontend Interactivity:** Alpine.js (Lightweight Javascript Framework)
-- **Styling:** Custom Vanilla CSS & CSS Variables (Bebas framework gemuk / *bloated-free* untuk menjamin perfoma *loading* super cepat).
-- **Data Visualization (Chart):** Chart.js
-- **Carousel & Swiping:** Swiper.js
-
----
-
-## ⚙️ Cara Instalasi Singkat
-
-1. Jalankan `composer install` untuk mengunduh library PHP.
-2. Gandakan file `.env.example` ke `.env` dan masukkan konfigurasi database lokal Anda.
-3. Jalankan `php artisan key:generate`.
-4. Jalankan migrasi dan seeder: `php artisan migrate:fresh --seed` (jika tersedia).
-5. Tautkan storage *local* agar gambar dapat dibaca browser: `php artisan storage:link`.
-6. Hidupkan server: `php artisan serve`.
-7. Siap! Buka `http://127.0.0.1:8000` di *browser*.
-
-*(Bagi instalasi Cpanel: Jangan lupa ikuti petunjuk menggunakan file setup_symlink.php di dalam public_html)*
+| Layer | Teknologi |
+|---|---|
+| Backend | Laravel 11 (PHP 8.2+) |
+| Database | MySQL |
+| Templating | Laravel Blade |
+| Frontend Interactivity | Alpine.js |
+| Styling | Vanilla CSS + CSS Variables |
+| Charts | Chart.js |
+| Carousel | Swiper.js |
+| PDF | Barryvdh/Laravel-DomPDF |
+| Excel Import | Maatwebsite/Laravel-Excel |
 
 ---
 
-*© Copyright HVM Digital - Ilham Maulana*
+## Fitur Halaman Publik
+
+### Beranda (/)
+- Hero section dengan slide dinamis (bisa diubah dari admin)
+- Section profil singkat Coach Agam
+- Highlight program AHP Training
+- Section CTA menuju WhatsApp
+- Footer dengan social media links
+
+### Profil Coach Agam (/profil-coach-agam)
+- Foto profil, biodata, dan deskripsi lengkap
+- Timeline karier (dikustomisasi dari admin)
+- Riwayat Pendidikan
+- Sertifikasi & Lisensi
+- Pengalaman Organisasi
+- Prestasi & Pencapaian
+- Informasi kontak dan sosial media
+- CV Preview & Download (/profil-coach-agam/cv)
+
+### Blog (/blog)
+- Daftar artikel dengan thumbnail dan kategori
+- Filter berdasarkan kategori (/blog/category/{slug})
+- Halaman detail artikel dengan SEO lengkap (/blog/{slug})
+- Meta description, OG tags, Schema.org per artikel
+
+### Kontak (/kontak)
+- Form kontak yang terhubung ke WhatsApp
+- Tracking klik WhatsApp via API
+
+### Galeri (/gallery)
+- Galeri foto kegiatan dan training yang dikustomisasi dari admin
+
+---
+
+## Fitur AHP Training (Publik)
+
+### Halaman Utama (/ahp-training)
+- Penjelasan program dan keunggulan
+- Tombol CTA untuk bergabung / kontak
+
+### Pencarian Pemain (/ahp-training/search)
+- Multi-term Search: Nama, No Reg, angka No Reg, atau kombinasi
+- Filter Posisi: ALL, GK, DEF, MID, ATT
+- Dua mode tampilan:
+  - Carousel (Swiper.js): kartu bergeser horizontal, premium
+  - Grid Kotak: tampilan grid standar
+- Ganti mode tampilan secara real-time tanpa reload halaman
+
+### Daftar Pemain (/ahp-training/player)
+- Daftar semua pemain aktif beserta statistik ringkas
+
+### Profil Pemain (/ahp-training/player/{slug})
+Hero Section:
+- Foto cutout pemain dengan background kustom
+- No Reg sebagai watermark besar
+- Posisi, usia otomatis (dihitung real-time dari tanggal lahir), tinggi, berat
+- Tombol share ke WhatsApp, Twitter/X, Facebook, Copy Link
+
+Grafik Analisis (Chart.js):
+- Radar Chart: Overview 7 metrik utama (BMI, MoCA, Passing, Scanning, Acceleration, Speed, Yo-Yo)
+- Bar Chart: Progres per sesi (BMI, MoCA Score, Passing Sukses)
+
+Tabel Komparasi Pre Test vs Post Test:
+- 17+ metrik dibandingkan secara otomatis
+- Indikator warna: hijau = progres positif, merah = regresi
+- Persentase perubahan per metrik
+
+Metrik yang ditampilkan:
+WEIGHT (kg), Body Mass Index (BMI), Body Fat Percentage2, Skeletal Muscle Mass,
+Skor MoCA INA, Jumlah Total Passing, Passing Sukses, Passing Gagal,
+Jumlah Scaning (per 10 detik), Initial Acceleration (0-10m)2,
+Acceleration Phase (10-20m)3, Maximal Speed/ Velocity (20-30m)4,
+RAST Test, Level, Balikan, Distance, Vo2max
+
+Download Laporan PDF:
+- Download laporan satu sesi tertentu
+- Download laporan gabungan semua sesi
+
+### Download PDF (/ahp-training/player/{slug}/pdf)
+- Foto, biodata, data sesi, semua metrik dengan rating (Excellent/Good/Average/Fair/Poor)
+- Bisa difilter per sesi via ?session={id}
+
+### Verifikasi Sertifikat (/verify-certificate)
+- Form verifikasi sertifikat keikutsertaan program
+
+---
+
+## Fitur Admin Panel
+
+URL Admin: /admin
+Login: /admin/login
+Dilindungi middleware admin (session auth) + middleware CheckLicense.
+
+### Dashboard Admin (/admin)
+- Ringkasan: jumlah pemain AHP, total sesi, total blog post
+- Card info lisensi sistem
+- Akses cepat ke semua modul
+
+### Settings General (/admin/settings/general)
+- Nama website, tagline, meta description global
+- Google Analytics ID, Facebook Pixel ID
+- Script kustom head/body
+- Logo website & favicon
+
+### Settings Homepage (/admin/settings/homepage)
+- Manajemen Slide Hero Banner (tambah, hapus, ubah)
+- Upload foto hero per slide
+- Judul, subjudul, dan teks CTA per slide
+
+### Settings Header (/admin/settings/header)
+- Logo header
+- Pengaturan warna dan style navigasi
+
+---
+
+## Sistem AHP Training (Admin)
+
+URL Dasar: /admin/ahp-training
+
+### Dashboard AHP (/admin/ahp-training)
+- Statistik: total pemain, total sesi, total data hasil test
+
+### Manajemen Pemain (/admin/ahp-training/players)
+- Daftar pemain
+- CRUD: Tambah / Edit / Hapus pemain
+- Field: No Reg, Nama, Posisi, Tanggal Lahir, Status aktif/nonaktif
+- Upload foto profil dan foto OG (Social Media)
+- Usia dihitung otomatis dari tanggal lahir (real-time)
+
+### Manajemen Sesi Test (/admin/ahp-training/sessions)
+- Daftar sesi dengan jumlah data per sesi
+- Buat sesi baru:
+  - Label dari dropdown (Pre Test, Post Test, Program Latihan, Evaluation Training Load, dll.)
+  - Atau ketik label kustom manual (override dropdown)
+  - Format nama sesi otomatis: [Label] [Tanggal] (contoh: Post Test 28 Juli 2026)
+  - Tanggal & waktu test, Lokasi/venue, Suhu/cuaca, Minggu ke-, Catatan pelatih
+- Edit sesi — ubah semua informasi sesi yang sudah dibuat
+- Hapus sesi (konfirmasi, semua data hasil test ikut terhapus)
+
+### Input Hasil Test (/admin/ahp-training/sessions/{id}/results)
+- Tabel input semua metrik per pemain dalam satu sesi
+- Kolom AGE di-lock, dihitung otomatis dari tanggal lahir pemain
+- Notifikasi edukasi AGE di bagian atas form
+- Kolom input lengkap:
+  HEIGHT (cm), WEIGHT (kg), Body Mass Index (BMI), Body Fat Percentage2,
+  Skeletal Muscle Mass, Skor MoCA INA, Jumlah Total Passing,
+  Passing Sukses, Passing Gagal, Jumlah Scaning (per 10 detik),
+  Initial Acceleration (0-10m)2, Acceleration Phase (10-20m)3,
+  Maximal Speed/ Velocity (20-30m)4, RAST Test, Level, Balikan,
+  Distance, Vo2max, Catatan Rating
+- Simpan semua data sekaligus (bulk save)
+
+### Import Data Excel/CSV (/admin/ahp-training/sessions/{id}/import)
+- Upload file Excel (.xlsx, .xls) atau CSV
+- Preview panduan visual format kolom yang benar
+- AGE dihitung otomatis oleh sistem, tidak perlu diisi di file
+- Data dibaca dari baris ke-5 (baris 1-4 dianggap header)
+- Tombol download template CSV
+
+### Template CSV (/admin/ahp-training/results/download-template)
+- Download template CSV dengan header kolom format benar
+- Disertai satu baris contoh data
+
+---
+
+## Sistem Blog
+
+### Admin Blog — Posts (/admin/blog/posts)
+- Buat, edit, hapus artikel
+- WYSIWYG editor untuk konten
+- Thumbnail / cover image
+- Slug URL otomatis dari judul
+- Meta description & keywords per artikel
+- Status: Draft / Published
+- Assign ke kategori
+
+### Admin Blog — Kategori (/admin/blog/categories)
+- Tambah, edit, hapus kategori
+- Slug otomatis
+
+### Pages Blog Settings (/admin/pages/blog)
+- Pengaturan teks dan heading halaman blog publik
+
+---
+
+## CRM Leads
+
+URL: /admin/crm
+
+- Daftar leads masuk dari form kontak dan klik WhatsApp
+- Detail per lead (nama, nomor HP, pesan, sumber)
+- Update status: New / Contacted / Converted / Rejected
+- Hapus lead
+
+---
+
+## Analytics
+
+URL: /admin/analytics
+
+- Dashboard analitik pengunjung website
+- Grafik jumlah kunjungan harian (interaktif, wave chart)
+- Statistik per halaman (page views)
+- Tracking klik WhatsApp terpisah
+- Data tersimpan di database lokal (tabel analytics_logs)
+
+---
+
+## Lisensi (Hidden)
+
+URL: /admin/lisensi
+PENTING: Halaman ini tersembunyi dari sidebar, tidak dapat diakses publik/klien.
+
+- Info lisensi: tanggal aktif dan tanggal berakhir
+- Update periode lisensi baru
+- Mekanisme:
+  - Jika lisensi kadaluarsa, seluruh halaman publik otomatis DOWN
+  - Jika lisensi diperpanjang (update tanggal), website langsung aktif kembali
+  - Lisensi aktif hingga 26 Juni 2027
+- Info "Developed by HVM Digital" ditampilkan di dashboard admin
+
+---
+
+## Pages Management (Admin)
+
+### Profil Coach Agam (/admin/pages/profile)
+- Upload foto profil
+- Edit biodata (nama, gelar, deskripsi)
+- Kelola Timeline karier (tambah/hapus)
+- Kelola Riwayat Pendidikan
+- Kelola Sertifikasi & Lisensi
+- Kelola Pengalaman Organisasi
+- Kelola Prestasi & Pencapaian
+- Kelola Info Kontak & Sosial Media
+
+### Galeri (/admin/pages/gallery)
+- Upload foto galeri kegiatan
+- Edit judul & deskripsi per foto
+- Hapus foto
+
+### Footer (/admin/pages/footer)
+- Edit teks, link, dan konten footer
+
+### AHP Training Page Settings (/admin/pages/ahp-training)
+- Edit konten halaman publik AHP Training
+- Upload foto latar belakang hero
+- Edit teks CTA, deskripsi program
+
+---
+
+## SEO dan Teknis
+
+### SEO Otomatis
+- Sitemap XML dinamis (/sitemap.xml) — semua halaman publik, blog, profil pemain
+- robots.txt (/robots.txt)
+- llms.txt untuk AI crawlers (/llms.txt)
+- Meta title, description, keywords per halaman
+- Open Graph tags (Facebook, WhatsApp)
+- Twitter Cards (X/Twitter)
+- Schema.org JSON-LD per halaman (Person, BlogPosting, CollectionPage, BreadcrumbList)
+- Canonical URL di setiap halaman
+
+### Tracking
+- Google Analytics ID via admin settings
+- Facebook Pixel ID via admin settings
+- Tracking klik WhatsApp via POST /api/track/wa
+- Tracking lead via POST /api/track/lead
+
+---
+
+## Cara Instalasi
+
+1. Clone repository
+   git clone https://github.com/dgtilhammln-cmd/coachagam.com.git
+
+2. Install dependensi PHP
+   composer install
+
+3. Setup environment
+   copy .env.example .env
+   (Edit .env: isi DB_*, APP_URL, dll.)
+
+4. Generate key
+   php artisan key:generate
+
+5. Jalankan migrasi
+   php artisan migrate
+
+6. Link storage (untuk foto, galeri, dll.)
+   php artisan storage:link
+
+7. Jalankan server lokal
+   php artisan serve
+
+Buka http://127.0.0.1:8000 — Admin di http://127.0.0.1:8000/admin
+
+---
+
+## Deploy ke Hostinger
+
+Lihat panduan lengkap di DEPLOY-HOSTINGER.md
+
+Quick deploy:
+  .\deploy.bat
+
+Script otomatis:
+1. git add -A
+2. git commit (timestamp otomatis)
+3. git push ke GitHub
+4. SSH ke Hostinger: git pull + clear cache Laravel
+
+---
+
+## Struktur Direktori Penting
+
+app/
+  Http/
+    Controllers/
+      Admin/
+        AhpPlayerController.php
+        AhpSessionController.php
+        AhpResultController.php
+        AnalyticsController.php
+        BlogController.php
+        CrmController.php
+        Pages/  (ProfileCoachAgam, Gallery, Footer, AhpTraining settings)
+      AhpTrainingController.php   (frontend AHP)
+    Middleware/
+      CheckLicense.php            (middleware lisensi sistem)
+  Imports/
+    AhpTestResultImport.php       (logic import Excel)
+  Models/
+    AhpPlayer.php
+    AhpTestSession.php
+    AhpTestResult.php             (22 kolom metrik termasuk vo2max)
+    AnalyticsLog.php
+    Lead.php
+    Post.php
+    SiteSetting.php
+
+resources/views/
+  admin/
+    ahp-training/
+      players/
+      sessions/    (create, edit, index)
+      results/     (index=input, import)
+    blog/
+    crm/
+    analytics/
+    settings/
+    pages/
+  pages/
+    ahp/
+      player.blade.php         (profil pemain, premium dark UI)
+      pdf.blade.php            (template laporan PDF)
+      players-list.blade.php
+    blog/
+    profile.blade.php
+    cv-preview.blade.php
+
+---
+
+(c) 2026-2027 HVM Digital - Ilham Maulana. All rights reserved.
