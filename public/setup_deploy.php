@@ -25,8 +25,8 @@ $action = $_GET['action'] ?? 'menu';
 
 // ── Path Detection ───────────────────────────────────────────
 // Script ini ada di public_html/, Laravel project ada 1 level di atas
-$publicPath  = __DIR__;                      // public_html/
-$laravelPath = dirname($publicPath) . '/laravel';  // laravel/ (sesuaikan jika perlu)
+$publicPath  = __DIR__;
+$laravelPath = '/home/coachaga/laravel';
 
 // Cek apakah struktur folder benar
 if (!file_exists($laravelPath . '/artisan')) {

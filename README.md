@@ -1,4 +1,4 @@
-﻿# Coach Agam — Platform Analisis Performa Atlet Sepakbola
+# Coach Agam — Platform Analisis Performa Atlet Sepakbola
 
 **Website:** https://coachagam.hvmdigital.id
 **Developer:** Ilham Maulana | **Agensi:** HVM Digital (hvmdigital.id)
@@ -339,23 +339,245 @@ Buka http://127.0.0.1:8000 — Admin di http://127.0.0.1:8000/admin
 
 ---
 
-## Deploy ke Hostinger
+## Deploy ke cPanel Domainesia (Tanpa SSH)
 
-Lihat panduan lengkap di DEPLOY-HOSTINGER.md
+> Panduan ini sudah terbukti berhasil untuk domain coachagam.com di Domainesia.
+> Cocok untuk shared hosting tanpa akses SSH.
 
-Quick deploy:
-  .\deploy.bat
+### Struktur Folder di Server
 
-Script otomatis:
-1. git add -A
-2. git commit (timestamp otomatis)
-3. git push ke GitHub
-4. SSH ke Hostinger: git pull + clear cache Laravel
+```
+/home/coachaga/
+├── laravel/          ← Semua file Laravel (app, config, routes, dll.)
+│   ├── app/
+│   ├── bootstrap/
+│   ├── config/
+│   ├── database/
+│   ├── resources/
+│   ├── routes/
+│   ├── storage/
+│   ├── vendor/
+│   ├── public/
+│   │   └── build/   ← Hasil npm run build
+│   ├── artisan
+│   ├── composer.json
+│   └── .env
+└── public_html/      ← Document Root domain (Addon Domain / main domain)
+    ├── index.php     ← Sudah diedit ke path absolut
+    ├── setup_deploy.php ← Dihapus setelah deploy selesai
+    └── build/        ← Copy dari laravel/public/build (untuk akses publik)
+        ├── manifest.json
+        └── assets/
+```
+
+### Langkah-Langkah Deploy
+
+#### 1. Siapkan File di Laptop
+```
+npm run build
+```
+Pastikan folder `public/build/` sudah ada sebelum upload.
+
+#### 2. Upload ke cPanel
+- Upload semua file kecuali folder `public/` ke `/home/coachaga/laravel/`
+- Upload isi folder `public/` ke `/home/coachaga/public_html/`
+- Upload folder `build/` JUGA ke `/home/coachaga/laravel/public/build/` (agar Vite path detection bekerja)
+
+#### 3. Edit `index.php` di `public_html`
+
+Ganti seluruh isi file `public_html/index.php` dengan:
+
+```php
+<?php
+
+use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
+
+define('LARAVEL_START', microtime(true));
+
+if (file_exists($maintenance = '/home/coachaga/laravel/storage/framework/maintenance.php')) {
+    require $maintenance;
+}
+
+require '/home/coachaga/laravel/vendor/autoload.php';
+
+/** @var Application $app */
+$app = require_once '/home/coachaga/laravel/bootstrap/app.php';
+
+$app->usePublicPath(__DIR__);
+
+$app->handleRequest(Request::capture());
+```
+
+#### 4. Buat & Setup Database di cPanel
+
+1. Buka cPanel → **MySQL Databases**
+2. Buat database baru (contoh: `coachaga_AHPCOACH`)
+3. Buat user baru (contoh: `coachaga_AHP`, password kuat)
+4. Sambungkan user ke database → centang **ALL PRIVILEGES** → Make Changes
+
+#### 5. Import Database
+
+Di phpMyAdmin, pilih database baru → tab **Import** → pilih file `database_coachagam_utf8.sql`.
+
+> ⚠️ PENTING: Gunakan file `database_coachagam_utf8.sql` (bukan versi lainnya).
+> File asli bisa error karena encoding UTF-16 dari Windows.
+> Generate file UTF-8 dengan perintah:
+> ```powershell
+> Get-Content database_coachagam.sql -Encoding Unicode | Set-Content database_coachagam_utf8.sql -Encoding UTF8
+> ```
+
+#### 6. Edit File `.env` di Server
+
+File `.env` ada di `/home/coachaga/laravel/.env`.
+Atur bagian berikut:
+
+```env
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://coachagam.com
+
+DB_CONNECTION=mysql
+DB_HOST=localhost
+DB_PORT=3306
+DB_DATABASE=coachaga_AHPCOACH
+DB_USERNAME=coachaga_AHP
+DB_PASSWORD="PasswordAnda"
+```
+
+#### 7. Fix `manifest.json`
+
+File `manifest.json` yang di-build di Windows akan memiliki path dengan nama folder lokal.
+Edit file `laravel/public/build/manifest.json` dan `public_html/build/manifest.json` di cPanel,
+ganti key `"../web coachagam/resources/css/app.css"` menjadi `"resources/css/app.css"`,
+dan `"../web coachagam/resources/js/app.js"` menjadi `"resources/js/app.js"`.
+
+Atau hapus semua isi file dan paste ulang isi yang sudah dibersihkan:
+
+```json
+{
+  "resources/css/app.css": {
+    "file": "assets/app-CftVGZFT.css",
+    "name": "app",
+    "names": ["app.css"],
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-BvRk9kiK.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  }
+}
+```
+
+> Tambahkan kembali entry font jika diperlukan sesuai isi `manifest.json` asli.
+
+#### 8. Jalankan Setup via Browser
+
+Akses: `https://coachagam.com/setup_deploy.php?token=coachagam-deploy-2025-abc123xyz`
+
+Klik tombol berurutan:
+1. **Set Permissions (775)**
+2. ~~Jalankan Migration~~ (skip, sudah import SQL manual)
+3. **Storage Link**
+4. **Clear Cache**
+5. **Build Cache (Optimize)**
+6. **Cek .env Config** — verifikasi konfigurasi
+7. **Test Koneksi DB** — pastikan koneksi berhasil
+
+#### 9. Setup Storage Link untuk Foto
+
+Buat file `public_html/link.php` dengan isi:
+
+```php
+<?php
+symlink('/home/coachaga/laravel/storage/app/public', '/home/coachaga/public_html/storage');
+echo "BERHASIL!";
+```
+
+Akses `coachagam.com/link.php` di browser → jika muncul "BERHASIL!" berarti foto sudah bisa tampil.
+
+#### 10. Upload Foto/Gambar
+
+Upload isi folder `storage/app/public/` dari laptop ke `/home/coachaga/laravel/storage/app/public/` di cPanel.
+
+#### 11. Cleanup (WAJIB!)
+
+Setelah semua berjalan normal, **HAPUS** file-file ini dari server:
+- `public_html/setup_deploy.php`
+- `public_html/link.php`
+
+---
+
+### Troubleshooting Umum
+
+| Error | Penyebab | Solusi |
+|---|---|---|
+| `403 Token tidak valid` | Token salah di URL | Tambahkan `?token=coachagam-deploy-2025-abc123xyz` |
+| `artisan TIDAK DITEMUKAN` | Path Laravel salah | Edit `setup_deploy.php`, ganti `$laravelPath` ke `/home/coachaga/laravel` |
+| `Access denied [1044]` | User belum disambungkan ke DB | cPanel → MySQL Databases → Add User to Database → ALL PRIVILEGES |
+| `Access denied [1045]` | Password salah atau hostname salah | Ganti `DB_HOST=localhost` (bukan `127.0.0.1`), cek password |
+| `Vite manifest not found` | Folder `build` salah tempat | Upload folder `build` ke `laravel/public/build/` |
+| `Unable to locate file in Vite manifest` | Key di manifest.json pakai nama folder lokal | Edit manifest.json, ganti key menjadi `resources/css/app.css` |
+| `Column not found: deleted_at` | Tabel kekurangan kolom | Jalankan di phpMyAdmin SQL: `ALTER TABLE posts ADD deleted_at TIMESTAMP NULL DEFAULT NULL;` |
+| `259 kesalahan di analisis` saat import SQL | File SQL encoding UTF-16 | Konversi ke UTF-8 dulu dengan PowerShell |
+
+---
+
+## Cara Instalasi Lokal
+
+1. Clone repository
+   ```
+   git clone https://github.com/dgtilhammln-cmd/coachagam.com.git
+   ```
+
+2. Install dependensi PHP
+   ```
+   composer install
+   ```
+
+3. Setup environment
+   ```
+   copy .env.example .env
+   ```
+   Edit `.env`: isi `DB_*`, `APP_URL`, dll.
+
+4. Generate key
+   ```
+   php artisan key:generate
+   ```
+
+5. Jalankan migrasi
+   ```
+   php artisan migrate
+   ```
+
+6. Link storage (untuk foto, galeri, dll.)
+   ```
+   php artisan storage:link
+   ```
+
+7. Build aset frontend
+   ```
+   npm install && npm run build
+   ```
+
+8. Jalankan server lokal
+   ```
+   php artisan serve
+   ```
+
+Buka http://127.0.0.1:8000 — Admin di http://127.0.0.1:8000/admin
+
+Login default: `admin@coachagam.com` / `Admin@2025`
 
 ---
 
 ## Struktur Direktori Penting
 
+```
 app/
   Http/
     Controllers/
@@ -400,7 +622,9 @@ resources/views/
     blog/
     profile.blade.php
     cv-preview.blade.php
+```
 
 ---
 
 (c) 2026-2027 HVM Digital - Ilham Maulana. All rights reserved.
+
